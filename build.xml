@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project name="mixomatic" basedir=".">
+	<property name="build.dir" location="build"/>
+	<property name="src.dir" location="src/java"/>
+	<property name="vendor.lib.dir" location="vendor/lib"/>
+	<property name="resources.dir" location="resources"/>
+	<property name="classes.dir" location="${build.dir}/classes"/>
+
+	<import file="test.xml"/>
+
+	<path id ="compile.classpath">
+		<fileset dir="${vendor.lib.dir}">
+		</fileset>
+	</path>
+
+	<target name="-prepare">
+		<mkdir dir="${build.dir}"/>
+	</target>
+
+	<target name="-prepare-compile" depends="-prepare">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+
+	<target name="compile" depends="-prepare-compile" description="Compile the source code.">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="compile.classpath" debug="true">
+			<compilerarg value="-Xlint:unchecked"/>	
+		</javac>	
+	</target>
+	
+	<target name="clean" description="Clean up the build outputs.">
+		<delete dir="${build.dir}"/>
+	</target>
+</project>
