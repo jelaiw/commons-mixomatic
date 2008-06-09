@@ -15,7 +15,7 @@ public final class LogLikelihoodFunction {
 			throw new IllegalArgumentException(String.valueOf(r));
 		if (s < 0.)
 			throw new IllegalArgumentException(String.valueOf(s));
-		this.f = new FastPDF(lambda0, r, s); // LOOK!
+		this.f = new edu.uab.ssg.mixomatic.jmsl.DefaultPDF(lambda0, r, s);
 	}
 
 	public double getValue(double[] x) {
@@ -25,12 +25,12 @@ public final class LogLikelihoodFunction {
 			throw new IllegalArgumentException(String.valueOf(x.length));
 		double sum = 0.;
 		for (int i = 0; i < x.length; i++) {
-			sum += Math.log(f.getValue(x[i]));
+			sum += Math.log(f.evaluate(x[i]));
 		}
 		return sum;
 	}
 
-	public double getLambda0() { return f.getLambda0(); }
-	public double getR() { return f.getR(); }
-	public double getS() { return f.getS(); }
+	public double getLambda0() { return f.getModel().getLambda0(); }
+	public double getR() { return f.getModel().getR(); }
+	public double getS() { return f.getModel().getS(); }
 }
