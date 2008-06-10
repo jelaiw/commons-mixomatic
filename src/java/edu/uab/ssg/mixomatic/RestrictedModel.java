@@ -74,8 +74,8 @@ public final class RestrictedModel implements OptimizationModel {
 		for (int i = 0; i < lambda0.length; i++) {
 			for (int j = 0; j < r.length; j++) {
 				for (int k = 0; k < s.length; k++) {
-					LogLikelihoodFunction f = new LogLikelihoodFunction(lambda0[i], r[j], s[k]);
-					double likelihood = f.getValue(x);
+					ProbabilityDensityFunction f = new edu.uab.ssg.mixomatic.jmsl.DefaultPDF(lambda0[i], r[j], s[k]);
+					double likelihood = LogLikelihoodFunction.evaluate(f, x);
 					if (likelihood > max) {
 						max = likelihood; // LOOK!
 						bestGuess[0] = lambda0[i];

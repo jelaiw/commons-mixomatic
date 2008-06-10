@@ -13,11 +13,11 @@ import JSci.maths.statistics.BetaDistribution;
  * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/6/05
  */
 
-/* package private */ final class DefaultPDF implements ProbabilityDensityFunction {
+public final class DefaultPDF implements ProbabilityDensityFunction {
 	private double lambda0, r, s;
 	private BetaDistribution beta;
 
-	/* package private */ DefaultPDF(double lambda0, double r, double s) {
+	public DefaultPDF(double lambda0, double r, double s) {
 		if (lambda0 < 0. || lambda0 > 1.)
 			throw new IllegalArgumentException(String.valueOf(lambda0));
 		if (r < 0.)
