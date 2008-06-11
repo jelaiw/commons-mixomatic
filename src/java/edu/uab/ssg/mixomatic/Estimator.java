@@ -49,7 +49,7 @@ public final class Estimator {
 		try {
 			tmp = solver.solve(new MinConNLP.Function() {
 				public double f(double[] x, int iact, boolean[] ierr) {
-					ProbabilityDensityFunction f = new edu.uab.ssg.mixomatic.jmsl.DefaultPDF(x[0], x[1], x[2]); // lambda0, r, s.
+					ProbabilityDensityFunction f = new edu.uab.ssg.mixomatic.jsci.LoosePDF(x[0], x[1], x[2]); // lambda0, r, s.
 					double d = LogLikelihoodFunction.evaluate(f, copyOfPValues);
 					return -d; // NOTE SIGN.
 				}
