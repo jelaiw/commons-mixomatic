@@ -14,6 +14,6 @@ public interface MixtureModel {
 	}
 
 	interface Estimator {
-		Estimate estimateParameters(double[] sample);
+		Estimate estimateParameters(double[] sample) throws MixomaticException;
 	}
 }

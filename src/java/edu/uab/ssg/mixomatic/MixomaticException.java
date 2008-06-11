@@ -5,20 +5,15 @@ package edu.uab.ssg.mixomatic;
  *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/7/05
  */
 
-public final class MixomaticException extends Exception {
-	private OptimizationModel model;
-	private double[] pValues;
+public class MixomaticException extends Exception {
+	protected double[] sample;
 
-	public MixomaticException(Throwable cause, OptimizationModel model, double[] pValues) {
+	public MixomaticException(Throwable cause, double[] sample) {
 		super(cause);
-		if (model == null)
-			throw new NullPointerException("model");
-		if (pValues == null)
-			throw new NullPointerException("pValues");
-		this.model = model;	
-		this.pValues = (double[]) pValues.clone();	
+		if (sample == null)
+			throw new NullPointerException("sample");
+		this.sample = (double[]) sample.clone();	
 	}
 
-	public OptimizationModel getModel() { return model; }
-	public double[] getPValues() { return (double[]) pValues.clone(); }
+	public double[] getSample() { return (double[]) sample.clone(); }
 }
