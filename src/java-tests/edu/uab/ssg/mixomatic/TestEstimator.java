@@ -11,8 +11,7 @@ import java.util.*;
  */
 
 public final class TestEstimator extends TestCase {
-	// http://www.ssg.uab.edu/jira/browse/HDB-105
-	public void testBug157() throws MixomaticException, IOException {
+	public void testBug157() throws MixomaticException, IOException { // See HDB-105 in JIRA.
 		OptimizationModel model = new RestrictedModel();
 		Estimator estimator = new Estimator(new RestrictedModel());
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/npr_columbia_pvalues.txt");

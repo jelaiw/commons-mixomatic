@@ -106,7 +106,7 @@ public final class CombinedEstimator {
 		int u = -1; // A + C in paper.
 		if (lambda0 > 0. && lambda0 < 1.)
 			u = random.nextBinomial(numberOfPValues, lambda0); 
-		else if (lambda0 == 0.) // See issue HDB-104 in JIRA.
+		else if (lambda0 == 0.) // See HDB-104 in JIRA.
 			u = 0;
 		else if (lambda0 == 1.)
 			u = numberOfPValues;
