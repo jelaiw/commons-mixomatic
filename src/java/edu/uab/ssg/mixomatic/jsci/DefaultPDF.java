@@ -6,29 +6,25 @@ import JSci.maths.statistics.BetaDistribution;
 
 /**
  *  This class implements the mix-o-matic probability density function,
- *  defined by model parameters lambda0, r, and s, using the beta
+ *  defined by a user-supplied mixture model, and is based on the
  *  probability density function available in the JSci library.
- *
- *  This class strictly checks the model parameters for validity and is
- *  appropriate for general purpose use.
  *
  * @author Jelai Wang
  * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/6/05
  */
 
 public final class DefaultPDF implements ProbabilityDensityFunction {
-	private LoosePDF pdf;
-
-	public DefaultPDF(double lambda0, double r, double s) {
-		if (lambda0 < 0. || lambda0 > 1.)
-			throw new IllegalArgumentException(String.valueOf(lambda0));
-		if (r < 0.)
-			throw new IllegalArgumentException(String.valueOf(r));
-		if (s < 0.)
-			throw new IllegalArgumentException(String.valueOf(s));
-		this.pdf = new LoosePDF(lambda0, r, s);
+	public DefaultPDF() {
 	}
 
-	public double evaluate(double x) { return pdf.evaluate(x); }
-	public MixtureModel getModel() { return pdf.getModel(); }
+	public double evaluate(MixtureModel model, double x) {
+		if (model == null)
+			throw new NullPointerException("model");
+		if (x < 0. || x > 1.)
+			throw new IllegalArgumentException(String.valueOf(x));
+		double lambda0 = model.getLambda0();
+		double r = model.getR(), s = model.getS();
+		BetaDistribution beta = new BetaDistribution(r, s);
+		return lambda0 + (1. - lambda0) * beta.probability(x); // Should we rewrite this expression to avoid cancellation error?
+	}
 }

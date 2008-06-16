@@ -1,7 +1,6 @@
 package edu.uab.ssg.mixomatic.jmsl;
 
-import edu.uab.ssg.mixomatic.ProbabilityDensityFunction;
-import edu.uab.ssg.mixomatic.MixtureModel;
+import edu.uab.ssg.mixomatic.*;
 import junit.framework.TestCase;
 import junit.framework.Assert;
 import java.util.Random;
@@ -13,52 +12,17 @@ import java.util.Random;
 
 public final class TestDefaultPDF extends TestCase {
 	public void testNaively() {
-		double lambda0 = 0.5, r = 1.5, s = 2.75;
-		ProbabilityDensityFunction f = new DefaultPDF(lambda0, r, s);
+		MixtureModel model = new DefaultModel(0.5, 1.5, 2.75);
+		ProbabilityDensityFunction function = new DefaultPDF();
 		double x = 0.05;
-		Assert.assertEquals(1.09408 , f.evaluate(x), 1.09408 * 0.01);
-		MixtureModel model = f.getModel();
-		Assert.assertTrue(Double.compare(0.5, model.getLambda0()) == 0);
-		Assert.assertTrue(Double.compare(1.5, model.getR()) == 0);
-		Assert.assertTrue(Double.compare(2.75, model.getS()) == 0);
+		Assert.assertEquals(1.09408 , function.evaluate(model, x), 1.09408 * 0.01);
 	}
 
 	public void testBadArgs() {
+		MixtureModel model = new DefaultModel(0.5, 1.5, 2.75);
 		try {
-			ProbabilityDensityFunction f = new DefaultPDF(-0.05, 1., 1.);
-			Assert.fail("lambda0 is out of range!");
-		}
-		catch (IllegalArgumentException e) {
-			Assert.assertTrue(true);
-		}
-
-		try {
-			ProbabilityDensityFunction f = new DefaultPDF(1.01, 1., 1.);
-			Assert.fail("lambda0 is out of range!");
-		}
-		catch (IllegalArgumentException e) {
-			Assert.assertTrue(true);
-		}
-
-		try {
-			ProbabilityDensityFunction f = new DefaultPDF(0.8, -1., 1.);
-			Assert.fail("r is out of range!");
-		}
-		catch (IllegalArgumentException e) {
-			Assert.assertTrue(true);
-		}
-
-		try {
-			ProbabilityDensityFunction f = new DefaultPDF(0.8, 1., -1.);
-			Assert.fail("s is out of range!");
-		}
-		catch (IllegalArgumentException e) {
-			Assert.assertTrue(true);
-		}
-
-		try {
-			ProbabilityDensityFunction f = new DefaultPDF(0.2, 1., 1.);
-			f.evaluate(-0.01);
+			ProbabilityDensityFunction function = new DefaultPDF();
+			function.evaluate(model, -0.01);
 			Assert.fail("x is out of range!");
 		}
 		catch (IllegalArgumentException e) {
@@ -66,8 +30,8 @@ public final class TestDefaultPDF extends TestCase {
 		}
 
 		try {
-			ProbabilityDensityFunction f = new DefaultPDF(0.2, 1., 1.);
-			f.evaluate(5.02);
+			ProbabilityDensityFunction function = new DefaultPDF();
+			function.evaluate(model, 5.02);
 			Assert.fail("x is out of range!");
 		}
 		catch (IllegalArgumentException e) {

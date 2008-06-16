@@ -2,6 +2,7 @@ package edu.uab.ssg.mixomatic.jmsl;
 
 import edu.uab.ssg.mixomatic.ProbabilityDensityFunction;
 import edu.uab.ssg.mixomatic.LogLikelihoodFunction;
+import edu.uab.ssg.mixomatic.MixtureModel;
 import java.util.*;
 
 /**
@@ -33,12 +34,12 @@ public final class DefaultConfiguration implements BoundedOptimizer.Configuratio
 		};
 	}
 
+	// Finds the best starting point by grid search.
 	public BoundedOptimizer.StartingPoint findStartingPoint(double[] sample) {
 		if (sample == null)
 			throw new NullPointerException("sample");
 		if (sample.length < 1)
 			throw new IllegalArgumentException(String.valueOf(sample.length));
-		// Find the best starting point by grid search.
 		double[] lambda0 = { 0.6, 0.8, 0.9 };
 		double[] r = { 0.5, 1., 1.5, 2. };
 		double[] s = { 0.75, 1.75, 2.75, 3.75 };
@@ -48,8 +49,9 @@ public final class DefaultConfiguration implements BoundedOptimizer.Configuratio
 		for (int i = 0; i < lambda0.length; i++) {
 			for (int j = 0; j < r.length; j++) {
 				for (int k = 0; k < s.length; k++) {
-					ProbabilityDensityFunction pdf = new edu.uab.ssg.mixomatic.jmsl.DefaultPDF(lambda0[i], r[j], s[k]);
-					double L = LogLikelihoodFunction.evaluate(pdf, sample);
+					MixtureModel model = new LooseModel(lambda0[i], r[j], s[k]);
+					ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultPDF(); // Faster than JMSL implementation.
+					double L = LogLikelihoodFunction.evaluate(model, function, sample);
 					if (L > max) {
 						max = L; // LOOK!
 						bestGuess[0] = lambda0[i];

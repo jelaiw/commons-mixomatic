@@ -6,6 +6,5 @@ package edu.uab.ssg.mixomatic;
  */
 
 public interface ProbabilityDensityFunction {
-	double evaluate(double x);
-	MixtureModel getModel();
+	double evaluate(MixtureModel model, double x);
 }

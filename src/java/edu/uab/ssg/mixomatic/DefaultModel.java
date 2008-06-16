@@ -1,6 +1,10 @@
 package edu.uab.ssg.mixomatic;
 
 /**
+ * This implementation represents the mix-o-matic mixture model, strictly
+ * checking the model parameters for validity, and is appropriate for
+ * general purpose use.
+ *
  * @author Jelai Wang
  */
 

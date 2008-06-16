@@ -27,14 +27,16 @@ public final class TestLogLikelihoodFunction extends TestCase {
 	}
 
 	public void testJmslPdf() throws IOException {
-		ProbabilityDensityFunction f = new edu.uab.ssg.mixomatic.jmsl.DefaultPDF(0.8, 1.5, 2.5);
-		double L = LogLikelihoodFunction.evaluate(f, pValues);
+		MixtureModel model = new DefaultModel(0.8, 1.5, 2.5);
+		ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jmsl.DefaultPDF();
+		double L = LogLikelihoodFunction.evaluate(model, function, pValues);
 		Assert.assertEquals(39.976442, L, 39.976442 * 0.01);
 	}
 
 	public void testJsciPdf() throws IOException {
-		ProbabilityDensityFunction f = new edu.uab.ssg.mixomatic.jsci.DefaultPDF(0.8, 1.5, 2.5);
-		double L = LogLikelihoodFunction.evaluate(f, pValues);
+		MixtureModel model = new DefaultModel(0.8, 1.5, 2.5);
+		ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultPDF();
+		double L = LogLikelihoodFunction.evaluate(model, function, pValues);
 		Assert.assertEquals(39.976442, L, 39.976442 * 0.01);
 	}
 }
