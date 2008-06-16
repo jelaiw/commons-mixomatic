@@ -10,12 +10,18 @@ import java.util.*;
  *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 4/5/06
  */
 
-public final class DefaultConfiguration implements BoundedOptimizer.Configuration {
-	// Note the JMSL API hacks for > 0 and positive infinity.
-	private double[] lowerBounds = { 0., 1.7e-8, 1.7e-8 }; // lambda0, r, s
-	private double[] upperBounds = { 1., 1.79e308, 1.79e308 };
+public class DefaultConfiguration implements BoundedOptimizer.Configuration {
+	protected double[] lowerBounds, upperBounds;
+	protected double[] lambda0, r, s;
 
-	/* package private */ DefaultConfiguration() {
+	protected DefaultConfiguration() {
+		// Note the JMSL API hacks for > 0 and positive infinity.
+		lowerBounds = new double[] { 0., 1.7e-8, 1.7e-8 }; // lambda0, r, s
+		upperBounds = new double[] { 1., 1.79e308, 1.79e308 };
+		// Define grid search space.
+		lambda0 = new double[] { 0.6, 0.8, 0.9 };
+		r = new double[] { 0.5, 1., 1.5, 2. };
+		s = new double[] { 0.75, 1.75, 2.75, 3.75 };
 	}
 
 	public BoundedOptimizer.LowerBounds getLowerBounds() {
@@ -40,9 +46,6 @@ public final class DefaultConfiguration implements BoundedOptimizer.Configuratio
 			throw new NullPointerException("sample");
 		if (sample.length < 1)
 			throw new IllegalArgumentException(String.valueOf(sample.length));
-		double[] lambda0 = { 0.6, 0.8, 0.9 };
-		double[] r = { 0.5, 1., 1.5, 2. };
-		double[] s = { 0.75, 1.75, 2.75, 3.75 };
 
 		final double[] bestGuess = { Double.NaN, Double.NaN, Double.NaN }; // lambda0, r, s
 		double max = -Double.MAX_VALUE; // See API for Double.MIN_VALUE.
