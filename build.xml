@@ -5,6 +5,7 @@
 	<property name="vendor.lib.dir" location="vendor/lib"/>
 	<property name="resources.dir" location="resources"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
+	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
 
 	<import file="test.xml"/>
 
@@ -29,5 +30,9 @@
 	
 	<target name="clean" description="Clean up the build outputs.">
 		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="javadoc" depends="-prepare" description="Generate Javadoc API documentation.">
+		<javadoc packagenames="edu.uab.ssg.mixomatic.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false"/>
 	</target>
 </project>
