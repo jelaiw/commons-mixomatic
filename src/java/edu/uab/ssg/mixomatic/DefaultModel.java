@@ -1,9 +1,8 @@
 package edu.uab.ssg.mixomatic;
 
 /**
- * This implementation represents the mix-o-matic mixture model, strictly
- * checking the model parameters for validity, and is appropriate for
- * general purpose use.
+ * This class represents the mix-o-matic mixture model and its instances
+ * are appropriate for general purpose use.
  *
  * @author Jelai Wang
  */
@@ -11,6 +10,16 @@ package edu.uab.ssg.mixomatic;
 public final class DefaultModel implements MixtureModel {
 	private double lambda0;
 	private double r, s;
+
+	/**
+	 * Constructs a mixture model with a uniform component specified by
+	 * lambda0 and a beta component specified by shape parameters r and s.
+	 *
+	 * @param lambda0 The area "under the curve" for the uniform component of the mixture model. Because it is a proportion, the value must be between zero and one.
+	 * @param r The first shape parameter for the beta component, must be a positive number.
+	 * @param s The second shape parameter for the beta component, must be a positive number.
+	 *
+	 */
 
 	public DefaultModel(double lambda0, double r, double s) {
 		if (lambda0 < 0. || lambda0 > 1.)
@@ -27,5 +36,11 @@ public final class DefaultModel implements MixtureModel {
 	public double getLambda0() { return lambda0; }
 	public double getR() { return r; }
 	public double getS() { return s; }
+
+	/**
+	 * Returns a string representation of this mixture model.
+	 * @return A string representation of this mixture model.
+	 */
+
 	public String toString() { return lambda0 + " " + r + " " + s; }
 }

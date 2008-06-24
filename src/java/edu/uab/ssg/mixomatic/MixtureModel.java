@@ -4,7 +4,7 @@ package edu.uab.ssg.mixomatic;
  * Implementations of this interface represent mix-o-matic mixture
  * models, each defined by parameters lambda0, r, and s.
  *
- * Each implementation models a distribution of p-values as a mixture 
+ * Each implementation should model a distribution of p-values as a mixture 
  * of one uniform distribution (specified by lambda0) and one beta 
  * distribution (specified by beta distribution parameters r and s). 
  * More details are available in the paper at 
@@ -16,17 +16,17 @@ package edu.uab.ssg.mixomatic;
 public interface MixtureModel {
 	/**
 	 * Returns lambda0, the area "under the curve" for the uniform component
-	 * of the mixture model.
+	 * of this mixture model.
 	 *
 	 * @return A value between zero and one representing the proportion 
-	 * of the total area of the uniform component.
+	 * of the total area in the uniform component.
 	 */
 
 	double getLambda0();
 
 	/**
-	 * Returns r, the first distributional shape parameter for the beta
-	 * component of the mixture model.
+	 * Returns r, the first shape parameter for the beta component 
+	 * of this mixture model.
 	 *
 	 * @return A positive number representing the first beta parameter.
 	 */
@@ -34,8 +34,8 @@ public interface MixtureModel {
 	double getR();
 
 	/**
-	 * Returns s, the second distributional shape parameter for the beta
-	 * component of the mixture model.
+	 * Returns s, the second shape parameter for the beta component 
+	 * of this mixture model.
 	 *
 	 * @return A positive number representing the second beta parameter.
 	 */
