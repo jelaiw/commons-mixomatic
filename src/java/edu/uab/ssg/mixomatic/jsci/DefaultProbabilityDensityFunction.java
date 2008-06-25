@@ -13,8 +13,8 @@ import JSci.maths.statistics.BetaDistribution;
  * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/6/05
  */
 
-public final class DefaultPDF implements ProbabilityDensityFunction {
-	public DefaultPDF() {
+public final class DefaultProbabilityDensityFunction implements ProbabilityDensityFunction {
+	public DefaultProbabilityDensityFunction() {
 	}
 
 	public double evaluate(MixtureModel model, double x) {

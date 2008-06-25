@@ -42,7 +42,7 @@ import java.util.*;
 			for (int j = 0; j < r.length; j++) {
 				for (int k = 0; k < s.length; k++) {
 					MixtureModel model = new LooseModel(lambda0[i], r[j], s[k]);
-					ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultPDF(); // Faster than JMSL implementation.
+					ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultProbabilityDensityFunction(); // Faster than JMSL implementation.
 					double L = LogLikelihoodFunction.evaluate(model, function, sample);
 					if (L > max) {
 						max = L; // LOOK!

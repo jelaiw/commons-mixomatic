@@ -84,7 +84,7 @@ public final class BoundedOptimizer {
 						throw new IllegalStateException(String.valueOf(iact));
 					ierr[0] = false;
 					MixtureModel model = new LooseModel(x[0], x[1], x[2]);
-					ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultPDF(); // Faster than JMSL implementation.
+					ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultProbabilityDensityFunction(); // Faster than JMSL implementation.
 					double L = LogLikelihoodFunction.evaluate(model, function, copy);
 					return -L; // NOTE SIGN.
 				}

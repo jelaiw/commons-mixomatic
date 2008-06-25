@@ -10,18 +10,18 @@ import java.util.Random;
  *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 4/4/06
  */
 
-public final class TestDefaultPDF extends TestCase {
+public final class TestDefaultProbabilityDensityFunction extends TestCase {
 	public void testNaively() {
 		MixtureModel model = new DefaultModel(0.5, 1.5, 2.75);
-		ProbabilityDensityFunction function = new DefaultPDF();
+		ProbabilityDensityFunction function = new DefaultProbabilityDensityFunction();
 		double x = 0.05;
-		Assert.assertEquals(1.09408 , function.evaluate(model, x), 1.09408 * 0.01);
+		Assert.assertEquals(1.09408, function.evaluate(model, x), 1.09408 * 0.01);
 	}
 
 	public void testBadArgs() {
 		MixtureModel model = new DefaultModel(0.5, 1.5, 2.75);
 		try {
-			ProbabilityDensityFunction function = new DefaultPDF();
+			ProbabilityDensityFunction function = new DefaultProbabilityDensityFunction();
 			function.evaluate(model, -0.01);
 			Assert.fail("x is out of range!");
 		}
@@ -30,7 +30,7 @@ public final class TestDefaultPDF extends TestCase {
 		}
 
 		try {
-			ProbabilityDensityFunction function = new DefaultPDF();
+			ProbabilityDensityFunction function = new DefaultProbabilityDensityFunction();
 			function.evaluate(model, 5.02);
 			Assert.fail("x is out of range!");
 		}
@@ -50,7 +50,7 @@ public final class TestDefaultPDF extends TestCase {
 		}
 
 		long start = System.currentTimeMillis();
-		double[] baseline = evaluate(new DefaultPDF(lambda0, r, s), x);
+		double[] baseline = evaluate(new DefaultProbabilityDensityFunction(lambda0, r, s), x);
 		System.out.println(System.currentTimeMillis() - start);
 	}
 
