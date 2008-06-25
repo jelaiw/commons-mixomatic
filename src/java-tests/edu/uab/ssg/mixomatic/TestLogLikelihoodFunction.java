@@ -28,7 +28,7 @@ public final class TestLogLikelihoodFunction extends TestCase {
 
 	public void testJmslPdf() throws IOException {
 		MixtureModel model = new DefaultModel(0.8, 1.5, 2.5);
-		ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jmsl.DefaultPDF();
+		ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jmsl.DefaultProbabilityDensityFunction();
 		double L = LogLikelihoodFunction.evaluate(model, function, pValues);
 		Assert.assertEquals(39.976442, L, 39.976442 * 0.01);
 	}
