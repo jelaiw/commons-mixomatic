@@ -9,7 +9,7 @@ import com.imsl.IMSLException;
  *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 4/10/06
  */
 
-public final class BoundedOptimizer {
+public final class BoundedOptimizer implements MixtureModel.Estimator {
 	public interface LowerBounds {
 		double getLambda0();
 		double getR();

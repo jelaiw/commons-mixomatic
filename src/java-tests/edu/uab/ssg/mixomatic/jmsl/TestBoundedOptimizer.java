@@ -13,7 +13,7 @@ import java.util.*;
 
 public final class TestBoundedOptimizer extends TestCase {
 	public void testBug157() throws MixomaticException, IOException { // See HDB-105 in JIRA.
-		BoundedOptimizer estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
+		MixtureModel.Estimator estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/npr_columbia_pvalues.txt");
 		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
 		Assert.assertEquals(1.0, estimate.getLambda0(), 1.0 * 0.01);
@@ -23,7 +23,7 @@ public final class TestBoundedOptimizer extends TestCase {
 	}
 	
 	public void testDefaultModel() throws MixomaticException, IOException {
-		BoundedOptimizer estimator = new BoundedOptimizer();
+		MixtureModel.Estimator estimator = new BoundedOptimizer();
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/pvalues.txt");
 		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
 		Assert.assertEquals(0.880918, estimate.getLambda0(), 0.880918 * 0.01);
@@ -33,7 +33,7 @@ public final class TestBoundedOptimizer extends TestCase {
 	}
 
 	public void testRestrictedModel() throws MixomaticException, IOException {
-		BoundedOptimizer estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
+		MixtureModel.Estimator estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/pvalues.txt");
 		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
 		Assert.assertEquals(0.848136, estimate.getLambda0(), 0.848136 * 0.01);
@@ -44,7 +44,7 @@ public final class TestBoundedOptimizer extends TestCase {
 
 	public void testBadArguments() throws MixomaticException {
 		try {
-			BoundedOptimizer estimator = new BoundedOptimizer(null);
+			MixtureModel.Estimator estimator = new BoundedOptimizer(null);
 			Assert.fail("model can't be null!");
 		}
 		catch (NullPointerException e) {
@@ -52,7 +52,7 @@ public final class TestBoundedOptimizer extends TestCase {
 		}
 
 		try {
-			BoundedOptimizer estimator = new BoundedOptimizer();
+			MixtureModel.Estimator estimator = new BoundedOptimizer();
 			estimator.estimateParameters(null);
 			Assert.fail("p-values can't be null!");
 		}
@@ -61,7 +61,7 @@ public final class TestBoundedOptimizer extends TestCase {
 		}
 
 		try {
-			BoundedOptimizer estimator = new BoundedOptimizer();
+			MixtureModel.Estimator estimator = new BoundedOptimizer();
 			estimator.estimateParameters(new double[0]);
 			Assert.fail("p-values can't be empty!");
 		}
@@ -70,7 +70,7 @@ public final class TestBoundedOptimizer extends TestCase {
 		}
 
 		try {
-			BoundedOptimizer estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
+			MixtureModel.Estimator estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
 			estimator.estimateParameters(new double[] { 0.1, -0.5, 0.5 });
 			Assert.fail("at least one p-value out of bounds!");
 		}
@@ -80,7 +80,7 @@ public final class TestBoundedOptimizer extends TestCase {
 	}
 
 	public void testNaN() throws MixomaticException, IOException {
-		BoundedOptimizer estimator = new BoundedOptimizer();
+		MixtureModel.Estimator estimator = new BoundedOptimizer();
 		// User must remove Double.NaN values from input array first.
 		try {
 			estimator.estimateParameters(new double[] { 0.01, Double.NaN, 0.05 });
@@ -92,7 +92,7 @@ public final class TestBoundedOptimizer extends TestCase {
 	}
 
 	public void testException() throws IOException {
-		BoundedOptimizer estimator = new BoundedOptimizer();
+		MixtureModel.Estimator estimator = new BoundedOptimizer();
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/exon4.txt"); // LOOK!
 		try {
 			estimator.estimateParameters(pValues);
