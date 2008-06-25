@@ -5,12 +5,11 @@ import edu.uab.ssg.mixomatic.MixtureModel;
 import com.imsl.stat.Cdf;
 
 /**
- *  This class implements the mix-o-matic probability density function,
- *  defined by a user-supplied mixture model, and is based on the beta
- *  probability density function available in the JMSL.
+ * This class implements the mix-o-matic probability density function using 
+ * the Cdf class available in the JMSL library at http://www.vni.com.
  *
- *	@author Jelai Wang
- *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/6/05
+ * @author Jelai Wang
+ * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/6/05
  */
 
 public final class DefaultPDF implements ProbabilityDensityFunction {
