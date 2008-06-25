@@ -24,8 +24,19 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	 * parameter estimates are allowed to take.
 	 */
 	public interface LowerBounds {
+		/**
+		 * Return the lower bound of &lambda;&#8320;.
+		 */
 		double getLambda0();
+
+		/**
+		 * Return the lower bound of r.
+		 */
 		double getR();
+
+		/**
+		 * Return the lower bound of s.
+		 */
 		double getS();
 	}
 
@@ -34,8 +45,19 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	 * parameter estimates are allowed to take.
 	 */
 	public interface UpperBounds {
+		/**
+		 * Return the upper bound of &lambda;&#8320;.
+		 */
 		double getLambda0();
+
+		/**
+		 * Return the upper bound of r.
+		 */
 		double getR();
+
+		/**
+		 * Return the upper bound of s.
+		 */
 		double getS();
 	}
 
@@ -43,8 +65,19 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	 * This interface represents the starting point of the optimizer.
 	 */
 	public interface StartingPoint {
+		/**
+		 * Return the starting value of &lambda;&#8320;.
+		 */
 		double getLambda0();
+
+		/**
+		 * Return the starting value of r.
+		 */
 		double getR();
+
+		/**
+		 * Return the starting value of s.
+		 */
 		double getS();
 	}
 
@@ -55,8 +88,24 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	 * finding a starting point given a sample distribution of p-values.
 	 */
 	public interface Configuration {
+		/**
+		 * Return the lower bounds of &lambda;&#8320;, r, and s.
+		 */
 		LowerBounds getLowerBounds();
+
+		/**
+		 * Return the upper bounds of &lambda;&#8320;, r, and s.
+		 */
 		UpperBounds getUpperBounds();
+
+		/**
+		 * Find and return a "reasonable" starting point for the optimizer.
+		 * This is typically implemented as a grid search, method of
+		 * moments estimate, or pre-specified points (ignoring the
+		 * sample distribution of p-values).
+		 * @param sample The sample distribution of p-values.
+		 * @return The starting point for the optimizer.
+		 */
 		StartingPoint findStartingPoint(double[] sample);
 	}
 
