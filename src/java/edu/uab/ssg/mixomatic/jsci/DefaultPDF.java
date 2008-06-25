@@ -5,9 +5,9 @@ import edu.uab.ssg.mixomatic.MixtureModel;
 import JSci.maths.statistics.BetaDistribution;
 
 /**
- *  This class implements the mix-o-matic probability density function,
- *  defined by a user-supplied mixture model, and is based on the
- *  probability density function available in the JSci library.
+ * This class implements the mix-o-matic probability density function
+ * using the BetaDistribution class available in the JSci library at
+ * http://jsci.sourceforge.net/.
  *
  * @author Jelai Wang
  * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/6/05
