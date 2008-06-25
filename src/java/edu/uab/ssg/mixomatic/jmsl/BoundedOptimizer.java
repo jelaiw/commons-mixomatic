@@ -5,48 +5,99 @@ import com.imsl.math.MinConNLP;
 import com.imsl.IMSLException;
 
 /**
- *	@author Jelai Wang
- *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 4/10/06
+ * This class implements a maximum likelihood estimator of the mixture 
+ * model parameters using mathematical optimization.
+ *
+ * Specifically this implementation is based on the MinConNLP class
+ * available in the JMSL library at http://www.vni.com. It allows the
+ * client programmer to modify runtime behavior by providing the
+ * lower and upper bounds of the mixture model parameters and the
+ * starting point of the optimizer.
+ *
+ * @author Jelai Wang
+ * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 4/10/06
  */
 
 public final class BoundedOptimizer implements MixtureModel.Estimator {
+	/**
+	 * This interface represents the lower bounds that the mixture model
+	 * parameter estimates are allowed to take.
+	 */
 	public interface LowerBounds {
 		double getLambda0();
 		double getR();
 		double getS();
 	}
 
+	/**
+	 * This interface represents the upper bounds that the mixture model
+	 * parameter estimates are allowed to take.
+	 */
 	public interface UpperBounds {
 		double getLambda0();
 		double getR();
 		double getS();
 	}
 
+	/**
+	 * This interface represents the starting point of the optimizer.
+	 */
 	public interface StartingPoint {
 		double getLambda0();
 		double getR();
 		double getS();
 	}
 
+	/**
+	 * This interface represents the set of feasible points that the
+	 * mixture model parameter estimates are allowed to take by "bundling"
+	 * together a set of lower and upper bounds and a mechanism for
+	 * finding a starting point given a sample distribution of p-values.
+	 */
 	public interface Configuration {
 		LowerBounds getLowerBounds();
 		UpperBounds getUpperBounds();
 		StartingPoint findStartingPoint(double[] sample);
 	}
 
+	/**
+	 * This is the default configuration, with bounds specified by 
+	 * <tt>0 &lt; &lambda;&#8320; &lt; 1</tt>,
+	 * <tt>r &gt; 0</tt>,
+	 * <tt> s &gt; 0</tt>,
+	 * and a custom grid search to find a starting point.
+	 */
 	public static final BoundedOptimizer.Configuration DEFAULT = new DefaultConfiguration();
+
+	/**
+	 * This is a "restricted" configuration, with bounds specified by 
+	 * <tt>0 &lt; &lambda;&#8320; &lt; 1</tt>,
+	 * <tt>0 &lt; r &lt; 1</tt>,
+	 * <tt> s &gt; 1</tt>,
+	 * and a custom grid search to find a starting point.
+	 * This implementation attempts to restrict the set of feasible points
+	 * such that the optimizer will tend to converge on a mixture model
+	 * that makes theoretical sense even if the sample distribution of
+	 * p-values has an unusual shape.
+	 */
 	public static final BoundedOptimizer.Configuration RESTRICTED = new RestrictedConfiguration();
 
-	private Configuration config;
+	private Configuration configuration;
 
+	/**
+	 * Constructs a mix-o-matic optimizer using the default configuration.
+	 */
 	public BoundedOptimizer() {
-		this.config = DEFAULT;
+		this.configuration = DEFAULT;
 	}
 
-	public BoundedOptimizer(Configuration config) {
-		if (config == null)
-			throw new NullPointerException("config");
-		this.config = config;
+	/**
+	 * Constructs a mix-o-matic optimizer using a user-supplied configuration.
+	 */
+	public BoundedOptimizer(Configuration configuration) {
+		if (configuration == null)
+			throw new NullPointerException("configuration");
+		this.configuration = configuration;
 	}
 
 	public MixtureModel.Estimate estimateParameters(double[] sample) throws MixomaticException {
@@ -66,12 +117,12 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 
 		MinConNLP solver = new MinConNLP(0, 0, 3);
 		// Tell solver about starting point.
-		BoundedOptimizer.StartingPoint guess = config.findStartingPoint(copy);
+		BoundedOptimizer.StartingPoint guess = configuration.findStartingPoint(copy);
 		solver.setGuess(new double[] { guess.getLambda0(), guess.getR(), guess.getS() });
 		// Tell solver about set of feasible points.
-		BoundedOptimizer.LowerBounds lb = config.getLowerBounds();
+		BoundedOptimizer.LowerBounds lb = configuration.getLowerBounds();
 		solver.setXlowerBound(new double[] { lb.getLambda0(), lb.getR(), lb.getS() });
-		BoundedOptimizer.UpperBounds ub = config.getUpperBounds();
+		BoundedOptimizer.UpperBounds ub = configuration.getUpperBounds();
 		solver.setXupperBound(new double[] { ub.getLambda0(), ub.getR(), ub.getS() });
 		// Workaround for JIRA issue HDB-9.
 		solver.setFunctionPrecision(2.2e-12); 
@@ -105,7 +156,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 		return new Estimate(tmp[0], tmp[1], tmp[2], copy);
 	}
 
-	public final class Estimate implements MixtureModel.Estimate {
+	private final class Estimate implements MixtureModel.Estimate {
 		private double lambda0, r, s;
 		private double[] sample;
 
@@ -127,7 +178,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 			buffer.append("lambda0 = ").append(lambda0).append(EOL);
 			buffer.append("r = ").append(r).append(EOL);
 			buffer.append("s = ").append(s).append(EOL);
-			buffer.append("configuration = ").append(config.getClass().getName()).append(EOL);
+			buffer.append("configuration = ").append(configuration.getClass().getName()).append(EOL);
 			buffer.append("sample size = ").append(sample.length).append(EOL);
 			return buffer.toString().trim();
 		}

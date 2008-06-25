@@ -9,7 +9,7 @@ import java.util.*;
  *	@author Jelai Wang
  */
 
-public final class DefaultConfiguration extends AbstractConfiguration implements BoundedOptimizer.Configuration {
+/* package private */ final class DefaultConfiguration extends AbstractConfiguration implements BoundedOptimizer.Configuration {
 	/* package private */ DefaultConfiguration() {
 		// Note the JMSL API hacks for > 0 and positive infinity.
 		lowerBounds = new double[] { 0., 1.7e-8, 1.7e-8 }; // lambda0, r, s

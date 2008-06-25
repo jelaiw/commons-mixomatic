@@ -10,7 +10,7 @@ import java.util.*;
  *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 4/5/06
  */
 
-public final class RestrictedConfiguration extends AbstractConfiguration implements BoundedOptimizer.Configuration {
+/* package private */ final class RestrictedConfiguration extends AbstractConfiguration implements BoundedOptimizer.Configuration {
 	/* package private */ RestrictedConfiguration() {
 		// Note the JMSL API hacks for > 0 and positive infinity.
 		lowerBounds = new double[] { 0., 1.7e-8, 1. + 1.7e-8 }; // lambda0, r, s
