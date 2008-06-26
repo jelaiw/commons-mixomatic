@@ -164,7 +164,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 				throw new IllegalArgumentException(i + ", " + copy[i]);
 		}
 
-		MinConNLP solver = new MinConNLP(0, 0, 3);
+		MinConNLP solver = new MinConNLP(0, 0, 3); // No constraint functions.
 		// Tell solver about starting point.
 		BoundedOptimizer.StartingPoint guess = configuration.findStartingPoint(copy);
 		solver.setGuess(new double[] { guess.getLambda0(), guess.getR(), guess.getS() });
@@ -193,43 +193,6 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 		catch (IMSLException e) { // See MinConNLP.solve() API.
 			throw new MixomaticException(e, copy);
 		}
-
-		// Check post-conditions.
-		if (tmp[0] < 0. || tmp[0] > 1.) // lambda0
-			throw new IllegalStateException(String.valueOf(tmp[0]));
-		if (tmp[1] < 0.) // r
-			throw new IllegalStateException(String.valueOf(tmp[1]));
-		if (tmp[2] < 0.) // s
-			throw new IllegalStateException(String.valueOf(tmp[2]));
-
-		return new Estimate(tmp[0], tmp[1], tmp[2], copy);
-	}
-
-	private final class Estimate implements MixtureModel.Estimate {
-		private double lambda0, r, s;
-		private double[] sample;
-
-		private Estimate(double lambda0, double r, double s, double[] sample) {
-			this.lambda0 = lambda0;
-			this.r = r;
-			this.s = s;
-			this.sample = sample;
-		}
-
-		public double getLambda0() { return lambda0; }
-		public double getR() { return r; }
-		public double getS() { return s; }
-		public double[] getSample() { return (double[]) sample.clone(); }
-
-		public String toString() {
-			String EOL = System.getProperty("line.separator");
-			StringBuffer buffer = new StringBuffer();
-			buffer.append("lambda0 = ").append(lambda0).append(EOL);
-			buffer.append("r = ").append(r).append(EOL);
-			buffer.append("s = ").append(s).append(EOL);
-			buffer.append("configuration = ").append(configuration.getClass().getName()).append(EOL);
-			buffer.append("sample size = ").append(sample.length).append(EOL);
-			return buffer.toString().trim();
-		}
+		return new DefaultEstimate(tmp[0], tmp[1], tmp[2], copy);
 	}
 }
