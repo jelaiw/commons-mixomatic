@@ -45,7 +45,7 @@ public final class TestBoundedOptimizer extends TestCase {
 	public void testBadArguments() throws MixomaticException {
 		try {
 			MixtureModel.Estimator estimator = new BoundedOptimizer(null);
-			Assert.fail("model can't be null!");
+			Assert.fail("configuration can't be null!");
 		}
 		catch (NullPointerException e) {
 			Assert.assertTrue(true);
