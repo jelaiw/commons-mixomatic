@@ -3,8 +3,8 @@ package edu.uab.ssg.mixomatic.helper;
 import edu.uab.ssg.mixomatic.MixtureModel;
 
 /**
- * This class implements the mix-o-matic mixture model, but does not 
- * check the model parameters for validity, and is not appropriate 
+ * This helper class implements the mix-o-matic mixture model, but does 
+ * not check the model parameters for validity, and is not appropriate 
  * for general purpose use. 
  *
  * It was written to be used by mathematical optimizer implementations 
@@ -12,9 +12,9 @@ import edu.uab.ssg.mixomatic.MixtureModel;
  * at values of lambda0, r, and s that are (slightly) out of bounds 
  * as part of its search algorithm.
  * 
- * See JIRA issue HDB-105 for examples of the MinConNLP optimizer
+ * <p>See JIRA issue HDB-105 for examples of the MinConNLP optimizer
  * trying a lambda0 value of 1.0000002966479395 on the way to
- * finding a solution.
+ * finding a solution.</p>
  *
  * @author Jelai Wang
  */
@@ -22,6 +22,12 @@ import edu.uab.ssg.mixomatic.MixtureModel;
 public final class LooseModel implements MixtureModel {
 	private double lambda0;
 	private double r, s;
+
+	/**
+	 * Constructs a mixture model with a uniform component specified by 
+	 * lambda0 and a beta component specified by shape parameters 
+	 * r and s, but does not check the values for validity.
+	 */
 
 	public LooseModel(double lambda0, double r, double s) {
 		this.lambda0 = lambda0;

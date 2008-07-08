@@ -3,6 +3,9 @@ package edu.uab.ssg.mixomatic.helper;
 import edu.uab.ssg.mixomatic.MixtureModel;
 
 /**
+ * This helper class represents a mixture model estimate and is intended
+ * for re-use by mixture model estimator implementations.
+ *
  * @author Jelai Wang
  */
 

@@ -9,6 +9,14 @@ import flanagan.math.*;
  * This class implements a maximum likelihood estimator of the mixture 
  * model parameters using mathematical optimization.
  *
+ * Specifically, this implementation is based on the constrained
+ * Nelder-Mead Maximisation class in the Flanagan Java Scientific
+ * Library at http://www.ee.ucl.ac.uk/~mflanaga/java/ and currently
+ * uses a fixed starting point, ftol = 1E-3, and "constraints"
+ * <tt>0 &lt; &lambda;&#8320; &lt; 1</tt>,
+ * <tt>r &gt; 0</tt>,
+ * <tt> s &gt; 0</tt>.
+ *
  * @author Jelai Wang
  * @version 7/8/08
  */
@@ -42,13 +50,13 @@ public final class ConstrainedOptimizer implements MixtureModel.Estimator {
 		Maximisation optimizer = new Maximisation();
 		double[] start = new double[] { 0.8, 1., 1.6 }; // Fixed starting point.
 		double ftol = 1E-3; // Reduced tolerance.
-		// Set up constraints.
+		// Set up constraints, see http://www.ee.ucl.ac.uk/~mflanaga/java/Maximisation.html#constraint for details.
 		optimizer.addConstraint(0, -1, 0.); // lambda0 > 0
 		optimizer.addConstraint(0, 1, 1.); // lambda0 < 1
 		optimizer.addConstraint(1, -1, 0.); // r > 0
 		optimizer.addConstraint(2, -1, 0.); // s > 0
 		
-		optimizer.nelderMead(f, start, ftol); // Begin optimization.
+		optimizer.nelderMead(f, start, ftol);
 
 		double[] tmp = optimizer.getParamValues();
 		return new DefaultEstimate(tmp[0], tmp[1], tmp[2], sample);
