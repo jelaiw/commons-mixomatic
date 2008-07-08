@@ -1,4 +1,4 @@
-package edu.uab.ssg.mixomatic.jmsl;
+package edu.uab.ssg.mixomatic.helper;
 
 import edu.uab.ssg.mixomatic.MixtureModel;
 
@@ -19,11 +19,11 @@ import edu.uab.ssg.mixomatic.MixtureModel;
  * @author Jelai Wang
  */
 
-/* package private */ final class LooseModel implements MixtureModel {
+public final class LooseModel implements MixtureModel {
 	private double lambda0;
 	private double r, s;
 
-	/* package private */ LooseModel(double lambda0, double r, double s) {
+	public LooseModel(double lambda0, double r, double s) {
 		this.lambda0 = lambda0;
 		this.r = r;
 		this.s = s;
