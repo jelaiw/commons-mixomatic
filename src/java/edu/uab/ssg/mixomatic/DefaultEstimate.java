@@ -1,4 +1,4 @@
-package edu.uab.ssg.mixomatic.jmsl;
+package edu.uab.ssg.mixomatic;
 
 import edu.uab.ssg.mixomatic.MixtureModel;
 
@@ -6,11 +6,11 @@ import edu.uab.ssg.mixomatic.MixtureModel;
  * @author Jelai Wang
  */
 
-/* package private */ final class DefaultEstimate implements MixtureModel.Estimate {
+public final class DefaultEstimate implements MixtureModel.Estimate {
 	private double lambda0, r, s;
 	private double[] sample;
 
-	/* package private */ DefaultEstimate(double lambda0, double r, double s, double[] sample) {
+	public DefaultEstimate(double lambda0, double r, double s, double[] sample) {
 		if (lambda0 < 0. || lambda0 > 1.)
 			throw new IllegalArgumentException(String.valueOf(lambda0));
 		if (r < 0.)
