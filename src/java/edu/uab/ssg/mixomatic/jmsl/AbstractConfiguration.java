@@ -1,8 +1,6 @@
 package edu.uab.ssg.mixomatic.jmsl;
 
-import edu.uab.ssg.mixomatic.ProbabilityDensityFunction;
-import edu.uab.ssg.mixomatic.LogLikelihoodFunction;
-import edu.uab.ssg.mixomatic.MixtureModel;
+import edu.uab.ssg.mixomatic.*;
 import java.util.*;
 
 /**
@@ -41,7 +39,7 @@ import java.util.*;
 		for (int i = 0; i < lambda0.length; i++) {
 			for (int j = 0; j < r.length; j++) {
 				for (int k = 0; k < s.length; k++) {
-					MixtureModel model = new LooseModel(lambda0[i], r[j], s[k]);
+					MixtureModel model = new DefaultModel(lambda0[i], r[j], s[k]);
 					ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultProbabilityDensityFunction(); // Faster than JMSL implementation.
 					double L = LogLikelihoodFunction.evaluate(model, function, sample);
 					if (L > max) {
