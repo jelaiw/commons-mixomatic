@@ -2,6 +2,7 @@ package edu.uab.ssg.mixomatic.jmsl;
 
 import edu.uab.ssg.mixomatic.*;
 import edu.uab.ssg.mixomatic.helper.LooseModel;
+import edu.uab.ssg.mixomatic.helper.DefaultEstimate;
 import com.imsl.math.MinConNLP;
 import com.imsl.IMSLException;
 

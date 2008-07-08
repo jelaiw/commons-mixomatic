@@ -2,6 +2,7 @@ package edu.uab.ssg.mixomatic.flanagan;
 
 import edu.uab.ssg.mixomatic.*;
 import edu.uab.ssg.mixomatic.helper.LooseModel;
+import edu.uab.ssg.mixomatic.helper.DefaultEstimate;
 import flanagan.math.*;
 
 /**

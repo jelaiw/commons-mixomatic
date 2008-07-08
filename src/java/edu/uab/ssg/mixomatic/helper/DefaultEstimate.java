@@ -1,4 +1,4 @@
-package edu.uab.ssg.mixomatic;
+package edu.uab.ssg.mixomatic.helper;
 
 import edu.uab.ssg.mixomatic.MixtureModel;
 
