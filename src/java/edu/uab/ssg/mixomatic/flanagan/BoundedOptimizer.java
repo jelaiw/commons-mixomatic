@@ -21,8 +21,8 @@ import flanagan.math.*;
  * @version 7/8/08
  */
 
-public final class ConstrainedOptimizer implements MixtureModel.Estimator {
-	public ConstrainedOptimizer() {
+public final class BoundedOptimizer implements MixtureModel.Estimator {
+	public BoundedOptimizer() {
 	}
 
 	public MixtureModel.Estimate estimateParameters(final double[] sample) throws MixomaticException {
