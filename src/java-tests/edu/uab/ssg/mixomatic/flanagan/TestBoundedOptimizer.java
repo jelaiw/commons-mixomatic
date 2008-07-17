@@ -36,7 +36,7 @@ public final class TestBoundedOptimizer extends TestCase {
 
 	/*
 	public void testRestrictedModel() throws MixomaticException, IOException {
-		MixtureModel.Estimator estimator = new BoundedOptimizer();
+		MixtureModel.Estimator estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/pvalues.txt");
 		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
 		Assert.assertEquals(0.848136, estimate.getLambda0(), 0.848136 * 0.01);
