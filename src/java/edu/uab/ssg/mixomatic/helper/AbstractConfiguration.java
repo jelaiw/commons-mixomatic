@@ -1,34 +1,39 @@
-package edu.uab.ssg.mixomatic.jmsl;
+package edu.uab.ssg.mixomatic.helper;
 
 import edu.uab.ssg.mixomatic.*;
 import java.util.*;
 
 /**
- *	@author Jelai Wang
+ * This is a helper implementation for an optimizer configuration
+ * that allows the implementor to subclass to provide the lower
+ * bounds, upper bounds, and grid search space for a simple
+ * grid search.
+ *
+ * @author Jelai Wang
  */
 
-/* package private */ abstract class AbstractConfiguration {
+public abstract class AbstractConfiguration {
 	protected double[] lowerBounds, upperBounds;
 	protected double[] lambda0, r, s;
 
-	public BoundedOptimizer.LowerBounds getLowerBounds() {
-		return new BoundedOptimizer.LowerBounds() {
+	public OptimizerConfiguration.LowerBounds getLowerBounds() {
+		return new OptimizerConfiguration.LowerBounds() {
 			public double getLambda0() { return lowerBounds[0]; }
 			public double getR() { return lowerBounds[1]; }
 			public double getS() { return lowerBounds[2]; }
 		};
 	}
 
-	public BoundedOptimizer.UpperBounds getUpperBounds() {
-		return new BoundedOptimizer.UpperBounds() {
+	public OptimizerConfiguration.UpperBounds getUpperBounds() {
+		return new OptimizerConfiguration.UpperBounds() {
 			public double getLambda0() { return upperBounds[0]; }
 			public double getR() { return upperBounds[1]; }
 			public double getS() { return upperBounds[2]; }
 		};
 	}
 
-	// Finds the best starting point by grid search.
-	public BoundedOptimizer.StartingPoint findStartingPoint(double[] sample) {
+	// Find the best starting point by grid search.
+	public OptimizerConfiguration.StartingPoint findStartingPoint(double[] sample) {
 		if (sample == null)
 			throw new NullPointerException("sample");
 		if (sample.length < 1)
@@ -52,7 +57,7 @@ import java.util.*;
 			}
 		}
 
-		return new BoundedOptimizer.StartingPoint() {
+		return new OptimizerConfiguration.StartingPoint() {
 			public double getLambda0() { return bestGuess[0]; }
 			public double getR() { return bestGuess[1]; }
 			public double getS() { return bestGuess[2]; }

@@ -1,8 +1,7 @@
 package edu.uab.ssg.mixomatic.jmsl;
 
 import edu.uab.ssg.mixomatic.*;
-import edu.uab.ssg.mixomatic.helper.LooseModel;
-import edu.uab.ssg.mixomatic.helper.DefaultEstimate;
+import edu.uab.ssg.mixomatic.helper.*;
 import com.imsl.math.MinConNLP;
 import com.imsl.IMSLException;
 
@@ -22,103 +21,13 @@ import com.imsl.IMSLException;
 
 public final class BoundedOptimizer implements MixtureModel.Estimator {
 	/**
-	 * This interface represents the lower bounds that the mixture model
-	 * parameter estimates are allowed to take.
-	 */
-	public interface LowerBounds {
-		/**
-		 * Return the lower bound of &lambda;&#8320;.
-		 */
-		double getLambda0();
-
-		/**
-		 * Return the lower bound of r.
-		 */
-		double getR();
-
-		/**
-		 * Return the lower bound of s.
-		 */
-		double getS();
-	}
-
-	/**
-	 * This interface represents the upper bounds that the mixture model
-	 * parameter estimates are allowed to take.
-	 */
-	public interface UpperBounds {
-		/**
-		 * Return the upper bound of &lambda;&#8320;.
-		 */
-		double getLambda0();
-
-		/**
-		 * Return the upper bound of r.
-		 */
-		double getR();
-
-		/**
-		 * Return the upper bound of s.
-		 */
-		double getS();
-	}
-
-	/**
-	 * This interface represents the starting point of the optimizer.
-	 */
-	public interface StartingPoint {
-		/**
-		 * Return the starting value of &lambda;&#8320;.
-		 */
-		double getLambda0();
-
-		/**
-		 * Return the starting value of r.
-		 */
-		double getR();
-
-		/**
-		 * Return the starting value of s.
-		 */
-		double getS();
-	}
-
-	/**
-	 * This interface represents the set of feasible points that the
-	 * mixture model parameter estimates are allowed to take by "bundling"
-	 * together a set of lower and upper bounds and a mechanism for
-	 * finding a starting point given a sample distribution of p-values.
-	 */
-	public interface Configuration {
-		/**
-		 * Return the lower bounds of &lambda;&#8320;, r, and s.
-		 */
-		LowerBounds getLowerBounds();
-
-		/**
-		 * Return the upper bounds of &lambda;&#8320;, r, and s.
-		 */
-		UpperBounds getUpperBounds();
-
-		/**
-		 * Find and return a "reasonable" starting point for the optimizer.
-		 * This is typically implemented as a grid search, method of
-		 * moments estimate, or pre-specified points (ignoring the
-		 * sample distribution of p-values).
-		 * @param sample The sample distribution of p-values.
-		 * @return The starting point for the optimizer.
-		 */
-		StartingPoint findStartingPoint(double[] sample);
-	}
-
-	/**
 	 * This is the default configuration, with bounds specified by 
 	 * <tt>0 &lt; &lambda;&#8320; &lt; 1</tt>,
 	 * <tt>r &gt; 0</tt>,
 	 * <tt> s &gt; 0</tt>,
 	 * and a custom grid search to find a starting point.
 	 */
-	public static final BoundedOptimizer.Configuration DEFAULT = new DefaultConfiguration();
+	public static final OptimizerConfiguration DEFAULT = new DefaultConfiguration();
 
 	/**
 	 * This is a "restricted" configuration, with bounds specified by 
@@ -131,9 +40,9 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	 * that makes theoretical sense even if the sample distribution of
 	 * p-values has an unusual shape.
 	 */
-	public static final BoundedOptimizer.Configuration RESTRICTED = new RestrictedConfiguration();
+	public static final OptimizerConfiguration RESTRICTED = new RestrictedConfiguration();
 
-	private Configuration configuration;
+	private OptimizerConfiguration configuration;
 
 	/**
 	 * Constructs a mix-o-matic optimizer using the default configuration.
@@ -145,7 +54,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	/**
 	 * Constructs a mix-o-matic optimizer using a user-supplied configuration.
 	 */
-	public BoundedOptimizer(Configuration configuration) {
+	public BoundedOptimizer(OptimizerConfiguration configuration) {
 		if (configuration == null)
 			throw new NullPointerException("configuration");
 		this.configuration = configuration;
@@ -168,12 +77,12 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 
 		MinConNLP solver = new MinConNLP(0, 0, 3); // No constraint functions.
 		// Tell solver about starting point.
-		BoundedOptimizer.StartingPoint guess = configuration.findStartingPoint(copy);
+		OptimizerConfiguration.StartingPoint guess = configuration.findStartingPoint(copy);
 		solver.setGuess(new double[] { guess.getLambda0(), guess.getR(), guess.getS() });
 		// Tell solver about set of feasible points.
-		BoundedOptimizer.LowerBounds lb = configuration.getLowerBounds();
+		OptimizerConfiguration.LowerBounds lb = configuration.getLowerBounds();
 		solver.setXlowerBound(new double[] { lb.getLambda0(), lb.getR(), lb.getS() });
-		BoundedOptimizer.UpperBounds ub = configuration.getUpperBounds();
+		OptimizerConfiguration.UpperBounds ub = configuration.getUpperBounds();
 		solver.setXupperBound(new double[] { ub.getLambda0(), ub.getR(), ub.getS() });
 		// Workaround for JIRA issue HDB-9.
 		solver.setFunctionPrecision(2.2e-12); 
