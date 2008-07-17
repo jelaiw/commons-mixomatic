@@ -24,7 +24,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	 * This is the default configuration, with bounds specified by 
 	 * <tt>0 &lt; &lambda;&#8320; &lt; 1</tt>,
 	 * <tt>r &gt; 0</tt>,
-	 * <tt> s &gt; 0</tt>,
+	 * <tt>s &gt; 0</tt>,
 	 * and a custom grid search to find a starting point.
 	 */
 	public static final OptimizerConfiguration DEFAULT = new DefaultConfiguration();
@@ -33,7 +33,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	 * This is a "restricted" configuration, with bounds specified by 
 	 * <tt>0 &lt; &lambda;&#8320; &lt; 1</tt>,
 	 * <tt>0 &lt; r &lt; 1</tt>,
-	 * <tt> s &gt; 1</tt>,
+	 * <tt>s &gt; 1</tt>,
 	 * and a custom grid search to find a starting point.
 	 * This implementation attempts to restrict the set of feasible points
 	 * such that the optimizer will tend to converge on a mixture model
