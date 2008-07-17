@@ -61,6 +61,7 @@ public abstract class AbstractConfiguration {
 			public double getLambda0() { return bestGuess[0]; }
 			public double getR() { return bestGuess[1]; }
 			public double getS() { return bestGuess[2]; }
+			public String toString() { return bestGuess[0] + " " + bestGuess[1] + " " + bestGuess[2]; }
 		};
 	}
 
