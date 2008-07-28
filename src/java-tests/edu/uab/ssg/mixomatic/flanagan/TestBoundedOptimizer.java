@@ -12,17 +12,30 @@ import java.util.*;
  */
 
 public final class TestBoundedOptimizer extends TestCase {
-	/*
-	public void testBug157() throws MixomaticException, IOException { // See HDB-105 in JIRA.
+	// See HDB-105 in JIRA. This was originally a test case for an optimizer
+	// implementation (MinConNLP in the JMSL) that violated the upper bound
+	// for lambda0 during the optimization. It is now simply a test case for
+	// optimizer behavior for a p-value distribution of unusual shape, 
+	// specifically, in this case, monotonically increasing. See histogram.
+	public void testBug157() throws MixomaticException, IOException { 
 		MixtureModel.Estimator estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/npr_columbia_pvalues.txt");
 		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
 		Assert.assertEquals(1.0, estimate.getLambda0(), 1.0 * 0.01);
-		Assert.assertEquals(0.999999983, estimate.getR(), 0.999999983 * 0.01);
-		Assert.assertEquals(1.000000017, estimate.getS(), 1.000000017 * 0.01);
+		Assert.assertEquals(0.796099607, estimate.getR(), 0.796099607 * 0.01);
+		Assert.assertEquals(1.019458893, estimate.getS(), 1.019458893 * 0.01);
 		Assert.assertTrue(Arrays.equals(pValues, estimate.getSample()) && !(pValues == estimate.getSample()));
 	}
-	*/
+
+	public void testHugeSignal() throws MixomaticException, IOException {
+		MixtureModel.Estimator estimator = new BoundedOptimizer();
+		double[] pValues = getPValues("edu/uab/ssg/mixomatic/exon4.txt"); // LOOK!
+		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
+		Assert.assertEquals(0.029241795, estimate.getLambda0(), 0.29241795 * 0.01);
+		Assert.assertEquals(0.008427974, estimate.getR(), 0.008427974 * 0.01);
+		Assert.assertEquals(1.447280224, estimate.getS(), 1.447280224 * 0.01);
+		Assert.assertTrue(Arrays.equals(pValues, estimate.getSample()) && !(pValues == estimate.getSample()));
+	}
 	
 	public void testDefaultModel() throws MixomaticException, IOException {
 		MixtureModel.Estimator estimator = new BoundedOptimizer();
@@ -34,7 +47,6 @@ public final class TestBoundedOptimizer extends TestCase {
 		Assert.assertTrue(Arrays.equals(pValues, estimate.getSample()) && !(pValues == estimate.getSample()));
 	}
 
-	/*
 	public void testRestrictedModel() throws MixomaticException, IOException {
 		MixtureModel.Estimator estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/pvalues.txt");
@@ -44,7 +56,6 @@ public final class TestBoundedOptimizer extends TestCase {
 		Assert.assertEquals(2.094765, estimate.getS(), 2.094765 * 0.01);
 		Assert.assertTrue(Arrays.equals(pValues, estimate.getSample()) && !(pValues == estimate.getSample()));
 	}
-	*/
 
 	public void testBadArguments() throws MixomaticException {
 		try {
@@ -87,12 +98,15 @@ public final class TestBoundedOptimizer extends TestCase {
 		}
 	}
 
+	// This converges using the Flanagan Nelder-Mead implementation, so we
+	// need to find a new dataset for testing exception-handling.
 	/*
 	public void testException() throws IOException {
 		MixtureModel.Estimator estimator = new BoundedOptimizer();
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/exon4.txt"); // LOOK!
 		try {
-			estimator.estimateParameters(pValues);
+			MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
+System.out.println(estimate);
 			Assert.fail("this set of p-values expected not to optimize!");
 		}
 		catch (MixomaticException e) {
