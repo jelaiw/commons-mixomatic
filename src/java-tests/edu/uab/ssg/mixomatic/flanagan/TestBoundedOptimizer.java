@@ -12,6 +12,16 @@ import java.util.*;
  */
 
 public final class TestBoundedOptimizer extends TestCase {
+	public void testBug102() throws MixomaticException, IOException { // See HDB-102 in JIRA.
+		MixtureModel.Estimator estimator = new BoundedOptimizer();
+		double[] pValues = getPValues("edu/uab/ssg/mixomatic/Resampled_Pval_17.txt");
+		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
+		Assert.assertEquals(0.385760489, estimate.getLambda0(), 0.385760489 * 0.01);
+		Assert.assertEquals(0.255482772, estimate.getR(), 0.255482772 * 0.01);
+		Assert.assertEquals(2.542044885, estimate.getS(), 2.542044885 * 0.01);
+		Assert.assertTrue(Arrays.equals(pValues, estimate.getSample()) && !(pValues == estimate.getSample()));
+	}
+
 	public void testAlmostNoSignal() throws MixomaticException, IOException { // See HDB-8 in JIRA.
 		MixtureModel.Estimator estimator = new BoundedOptimizer();
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/pvalues5.txt");
