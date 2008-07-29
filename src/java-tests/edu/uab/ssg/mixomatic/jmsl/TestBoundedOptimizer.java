@@ -12,6 +12,16 @@ import java.util.*;
  */
 
 public final class TestBoundedOptimizer extends TestCase {
+	public void testBug9() throws MixomaticException, IOException { // See HDB-9 in JIRA. This p-value distribution has a funny mound-shape.
+		MixtureModel.Estimator estimator = new BoundedOptimizer();
+		double[] pValues = getPValues("edu/uab/ssg/mixomatic/pvalues6.txt");
+		MixtureModel.Estimate estimate = estimator.estimateParameters(pValues);
+		Assert.assertEquals(0.575266479, estimate.getLambda0(), 0.575266479 * 0.01);
+		Assert.assertEquals(5.545681846, estimate.getR(), 5.545681846 * 0.01);
+		Assert.assertEquals(8.152365616, estimate.getS(), 8.152365616 * 0.01);
+		Assert.assertTrue(Arrays.equals(pValues, estimate.getSample()) && !(pValues == estimate.getSample()));
+	}
+
 	public void testBug157() throws MixomaticException, IOException { // See HDB-105 in JIRA.
 		MixtureModel.Estimator estimator = new BoundedOptimizer(BoundedOptimizer.RESTRICTED);
 		double[] pValues = getPValues("edu/uab/ssg/mixomatic/npr_columbia_pvalues.txt");
