@@ -1,5 +1,6 @@
 package edu.uab.ssg.mixomatic.power;
 
+import edu.uab.ssg.mixomatic.*;
 import junit.framework.TestCase;
 import junit.framework.Assert;
 
@@ -10,18 +11,20 @@ import junit.framework.Assert;
 
 public final class TestCombinedEstimator extends TestCase {
 	public void testBug153() { // See HDB-104 in JIRA.
-		// Borrowed most of fixture from testCR().
-		// Test one extreme, lambda = 0.
+		// Borrowed numbers from testCR().
+		CombinedEstimator estimator = null;
 		double lambda0 = 0., r = 1.39502, s = 3.64042;
+		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 5, n2 = 5;
 		int k = 12488;
-		CombinedEstimator estimator = new CombinedEstimator(lambda0, r, s, k, n1, n2);
+		// Test one extreme, lambda = 0.
+		estimator = new CombinedEstimator(model, k, n1, n2);
 		int[] counts = estimator.bootstrap(10, 0.05);
 		Assert.assertEquals(0, counts[0]); // A
 		Assert.assertEquals(0, counts[2]); // C
 		// Test the other extreme, lambda = 1.
-		lambda0 = 1.;
-		estimator = new CombinedEstimator(lambda0, r, s, k, n1, n2);
+		model = new DefaultModel(1., r, s);
+		estimator = new CombinedEstimator(model, k, n1, n2);
 		counts = estimator.bootstrap(10, 0.05);
 		Assert.assertEquals(0, counts[1]); // B
 		Assert.assertEquals(0, counts[3]); // D
@@ -29,9 +32,10 @@ public final class TestCombinedEstimator extends TestCase {
 	
 	public void testCR() {
 		double lambda0 = 0.88092, r = 1.39502, s = 3.64042;
+		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 5, n2 = 5;
 		int k = 12488;
-		CombinedEstimator estimator = new CombinedEstimator(lambda0, r, s, k, n1, n2);
+		CombinedEstimator estimator = new CombinedEstimator(model, k, n1, n2);
 		CombinedEstimator.Estimates estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.calculateEstimates(10, 0.01, 100);
@@ -47,9 +51,10 @@ public final class TestCombinedEstimator extends TestCase {
 
 	public void testMountz() {
 		double lambda0 = 0.605, r = 0.539, s = 1.844; // From paper.
+		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 3, n2 = 3;
 		int k = 12625;
-		CombinedEstimator estimator = new CombinedEstimator(lambda0, r, s, k, n1, n2);
+		CombinedEstimator estimator = new CombinedEstimator(model, k, n1, n2);
 		CombinedEstimator.Estimates estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.calculateEstimates(10, 0.01, 100);
@@ -65,9 +70,10 @@ public final class TestCombinedEstimator extends TestCase {
 
 	public void testCD4() {
 		double lambda0 = 0.799, r = 0.943, s = 2.496; // From Gary Gadbury.
+		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 5, n2 = 5;
 		int k = 12548;
-		CombinedEstimator estimator = new CombinedEstimator(lambda0, r, s, k, n1, n2);
+		CombinedEstimator estimator = new CombinedEstimator(model, k, n1, n2);
 		CombinedEstimator.Estimates estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.calculateEstimates(40, 0.00001, 100);
@@ -83,9 +89,10 @@ public final class TestCombinedEstimator extends TestCase {
 
 	public void testObesity() {
 		double lambda0 = 0.6897603, r = 0.3241158, s = 1.8341034; // From Gary Gadbury.
+		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 19, n2 = 19;
 		int k = 63149;
-		CombinedEstimator estimator = new CombinedEstimator(lambda0, r, s, k, n1, n2);
+		CombinedEstimator estimator = new CombinedEstimator(model, k, n1, n2);
 		CombinedEstimator.Estimates estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.calculateEstimates(20, 0.0001, 100);
@@ -101,9 +108,10 @@ public final class TestCombinedEstimator extends TestCase {
 
 	public void testUnequalSampleSize() { // Modified from Mountz example in paper.
 		double lambda0 = 0.605, r = 0.539, s = 1.844; 
+		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 10, n2 = 5; 
 		int k = 12625;
-		CombinedEstimator estimator = new CombinedEstimator(lambda0, r, s, k, n1, n2);
+		CombinedEstimator estimator = new CombinedEstimator(model, k, n1, n2);
 		CombinedEstimator.Estimates estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.calculateEstimates(10, 0.01, 100);
