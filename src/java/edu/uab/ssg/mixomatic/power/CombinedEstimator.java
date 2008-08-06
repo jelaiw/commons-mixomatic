@@ -6,7 +6,15 @@ import com.imsl.stat.*;
 /**
  * This class implements the parametric bootstrap procedure, described in
  * the paper at http://dx.doi.org/10.1191/0962280204sm369ra, for obtaining
- * estimates of EDR, TP, and TN.
+ * estimates of the expected discovery rate (EDR), "akin but not identical
+ * to the notion of power", proportion of true positives (TP), and 
+ * proportion of true negatives (TN).
+ *
+ * The client programmer is expected to have conducted a valid two-group
+ * test of hypothesis obtaining a sample distribution of p-values. Then,
+ * a mixture model is fitted, probably using a MixtureModel.Estimator,
+ * to this distribution of p-values. From there, an instance of this
+ * class can be constructed to estimate EDR, TP, and TN.
  *
  * @author Jelai Wang
  * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 5/22/2006
@@ -15,9 +23,18 @@ import com.imsl.stat.*;
 public final class CombinedEstimator {
 	private MixtureModel model;
 	private int numberOfPValues; // Referred to as 'k' in the spec.
-	private int N1, N2;
 	private double N; // Referred to as 'n' in the paper.
 
+	/**
+	 * Constructs an estimator for EDR, TP, and TN.
+	 *
+	 * @param model The mixture model, estimated from fitting the sample 
+	 * distribution of p-values.
+	 * @param numberOfPValues The total number of p-values. This quantity is
+	 * called "k" in the reference paper.
+	 * @param N1 The sample size of the first group in the two-group hypothesis test.
+	 * @param N2 The sample size of the second group in the two-group hypothesis test.
+	 */
 	public CombinedEstimator(MixtureModel model, int numberOfPValues, int N1, int N2) {
 		if (model == null)
 			throw new NullPointerException("model");
@@ -29,15 +46,24 @@ public final class CombinedEstimator {
 			throw new IllegalArgumentException(String.valueOf(N2));
 		this.model = model;
 		this.numberOfPValues = numberOfPValues;	
-		this.N1 = N1;	this.N2 = N2;
 		if (N1 != N2) // Calculate 'equivalent' equal group sample size.
 			this.N = 2. / (1. / N1 + 1. / N2);
 		else
 			this.N = N1;	
 	}
 
-	// newN is referred to as 'n*' in the spec.
-	// numberOfIterations is referred to as 'M' in the paper.
+	/**
+	 * Calculate estimates for EDR, TP, and TN using the parametric bootstrap
+	 * procedure described in http://dx.doi.org/10.1191/0962280204sm369ra.
+	 *
+	 * @param newN The sample size at which to calculate the estimates. This
+	 * quantity is called "n*" in the reference paper.
+	 * @param threshold The threshold at which to calculate the estimates. This
+	 * quantity is called &tau; in the reference paper.
+	 * @param numberOfIterations The number of bootstrap iterations to perform.
+	 * This tuning parameter is called "M" in the reference paper and was set
+	 * to M = 100 in the three illustrative examples presented.
+	 */
 	public Estimates calculateEstimates(int newN, double threshold, int numberOfIterations) {
 		if (newN < 1)
 			throw new IllegalArgumentException(String.valueOf(newN));
@@ -61,6 +87,10 @@ public final class CombinedEstimator {
 		return new Estimates(newN, threshold, tp, tn, edr);
 	}
 
+	/**
+	 * An instance of this class represents the estimates of EDR, TP, and TN
+	 * from a call to calculateEstimates().
+	 */
 	public final class Estimates {
 		private int newN;
 		private double threshold;
@@ -72,14 +102,54 @@ public final class CombinedEstimator {
 			this.tp = tp; this.tn = tn; this.edr = edr;
 		}
 
+		/**
+		 * Returns the sample size called "n" in the calculation.
+		 * This is the sample size of each group in the actual data 
+		 * in the hypothesis test. If the sample sizes of these
+		 * groups are not equal, an "equivalent" equal group sample
+		 * size is calculated and used.
+		 */
 		public double getEquivalentSampleSize() { return N; }
+
+		/**
+		 * Returns the "extrapolated" sample size at which the estimates
+		 * were calculated.
+		 */
 		public int getExtrapolatedSampleSize() { return newN; }
+
+		/**
+		 * Returns the threshold at which the estimates were calculated.
+		 */
 		public double getThreshold() { return threshold; }
+
+		/**
+		 * Returns the point estimate for the proportion of true positives (TP).
+		 */
 		public double getTP() { return Summary.mean(tp); }
+
+		/**
+		 * Returns the point estimate for the proportion of true negatives (TN).
+		 */
 		public double getTN() { return Summary.mean(tn); }
+
+		/**
+		 * Returns the point estimate for the expected discovery rate (EDR).
+		 */
 		public double getEDR() { return Summary.mean(edr); }
+
+		/**
+		 * Returns the standard error for the proportion of true positives (TP).
+		 */
 		public double getStandardErrorForTP() { return Summary.sampleStandardDeviation(tp); }
+
+		/**
+		 * Returns the standard error for the proportion of true negatives (TN).
+		 */
 		public double getStandardErrorForTN() { return Summary.sampleStandardDeviation(tn); }
+
+		/**
+		 * Returns the standard error for the expected discovery rate (EDR).
+		 */
 		public double getStandardErrorForEDR() { return Summary.sampleStandardDeviation(edr); }
 
 		public String toString() {
