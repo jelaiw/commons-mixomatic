@@ -6,15 +6,15 @@ import com.imsl.stat.*;
 /**
  * This class implements the parametric bootstrap procedure, described in
  * the paper at http://dx.doi.org/10.1191/0962280204sm369ra, for obtaining
- * estimates of the expected discovery rate (EDR), "akin but not identical
- * to the notion of power", proportion of true positives (TP), and 
- * proportion of true negatives (TN).
+ * estimates of the expected discovery rate (EDR), a quantity "akin but 
+ * not identical to the notion of power", the proportion of true positives 
+ * (TP), and the proportion of true negatives (TN).
  *
- * The client programmer is expected to have conducted a valid two-group
- * test of hypothesis obtaining a sample distribution of p-values. Then,
- * a mixture model is fitted, probably using a MixtureModel.Estimator,
- * to this distribution of p-values. From there, an instance of this
- * class can be constructed to estimate EDR, TP, and TN.
+ * The client programmer is expected to have conducted many, valid tests
+ * of hypothesis to obtain a sample distribution of p-values (from those
+ * tests) and fitted a mixture model, using a MixtureModel.Estimator,
+ * to this distribution of p-values. Then, an instance of this class can be 
+ * constructed to estimate EDR, TP, and TN.
  *
  * @author Jelai Wang
  * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 5/22/2006
@@ -26,14 +26,15 @@ public final class CombinedEstimator {
 	private double N; // Referred to as 'n' in the paper.
 
 	/**
-	 * Constructs an estimator for EDR, TP, and TN.
+	 * Constructs an estimator for EDR, TP, and TN given sample size
+	 * parameters from a two-group hypothesis test.
 	 *
-	 * @param model The mixture model, estimated from fitting the sample 
-	 * distribution of p-values.
+	 * @param model The mixture model, estimated from the sample distribution 
+	 * of p-values.
 	 * @param numberOfPValues The total number of p-values. This quantity is
 	 * called "k" in the reference paper.
-	 * @param N1 The sample size of the first group in the two-group hypothesis test.
-	 * @param N2 The sample size of the second group in the two-group hypothesis test.
+	 * @param N1 The sample size of the first group in the hypothesis test.
+	 * @param N2 The sample size of the second group in the hypothesis test.
 	 */
 	public CombinedEstimator(MixtureModel model, int numberOfPValues, int N1, int N2) {
 		if (model == null)
@@ -56,13 +57,13 @@ public final class CombinedEstimator {
 	 * Calculate estimates for EDR, TP, and TN using the parametric bootstrap
 	 * procedure described in http://dx.doi.org/10.1191/0962280204sm369ra.
 	 *
-	 * @param newN The sample size at which to calculate the estimates. This
-	 * quantity is called "n*" in the reference paper.
-	 * @param threshold The threshold at which to calculate the estimates. This
-	 * quantity is called &tau; in the reference paper.
+	 * @param newN The sample size at which to calculate the estimates.
+	 * Called "n*" in the reference paper.
+	 * @param threshold The threshold at which to calculate the estimates.
+	 * Called &tau; in the reference paper.
 	 * @param numberOfIterations The number of bootstrap iterations to perform.
-	 * This tuning parameter is called "M" in the reference paper and was set
-	 * to M = 100 in the three illustrative examples presented.
+	 * Called "M" in the reference paper and set to M = 100 in the three 
+	 * examples presented.
 	 */
 	public Estimates calculateEstimates(int newN, double threshold, int numberOfIterations) {
 		if (newN < 1)
@@ -72,11 +73,12 @@ public final class CombinedEstimator {
 		if (numberOfIterations < 1)
 			throw new IllegalArgumentException(String.valueOf(numberOfIterations));
 
-		// The 'number of iterations' is equal to the quantity 'M' in the paper.
 		double[] tp = new double[numberOfIterations];
 		double[] tn = new double[numberOfIterations];
 		double[] edr = new double[numberOfIterations];
 
+		// A, B, C, and D are the quantities of interest described in
+		// Table 1 in the reference paper.
 		for (int i = 0; i < numberOfIterations; i++) {
 			int[] counts = bootstrap(newN, threshold);
 			int A = counts[0], B = counts[1], C = counts[2], D = counts[3];
@@ -103,11 +105,10 @@ public final class CombinedEstimator {
 		}
 
 		/**
-		 * Returns the sample size called "n" in the calculation.
-		 * This is the sample size of each group in the actual data 
-		 * in the hypothesis test. If the sample sizes of these
-		 * groups are not equal, an "equivalent" equal group sample
-		 * size is calculated and used.
+		 * Returns the sample size "n".
+		 * This is the sample size of each group in the hypothesis test.
+		 * If the sample sizes are not equal, an "equivalent" equal group 
+		 * sample size is calculated and used in the estimation procedure.
 		 */
 		public double getEquivalentSampleSize() { return N; }
 
