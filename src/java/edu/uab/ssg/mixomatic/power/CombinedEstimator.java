@@ -1,230 +1,81 @@
 package edu.uab.ssg.mixomatic.power;
 
-import edu.uab.ssg.mixomatic.MixtureModel;
-import com.imsl.stat.*;
-
 /**
- * This class implements the parametric bootstrap procedure, described in
- * the paper at http://dx.doi.org/10.1191/0962280204sm369ra, for obtaining
- * estimates of the expected discovery rate (EDR), a quantity "akin but 
- * not identical to the notion of power", the proportion of true positives 
- * (TP), and the proportion of true negatives (TN).
- *
- * The client programmer is expected to have conducted many, valid tests
- * of hypothesis to obtain a sample distribution of p-values (from those
- * tests) and fitted a mixture model, using a MixtureModel.Estimator,
- * to this distribution of p-values. Then, an instance of this class can be 
- * constructed to estimate EDR, TP, and TN.
+ * This interface defines an abstraction for a "combined" estimator, that
+ * is, an estimator for the proportions of interest, true positive (TP),
+ * true negative (TN), and expected discovery rate (EDR) described in
+ * the paper at http://dx.doi.org/10.1191/0962280204sm369ra.
  *
  * @author Jelai Wang
  * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 5/22/2006
  */
 
-public final class CombinedEstimator {
-	private MixtureModel model;
-	private int numberOfPValues; // Referred to as 'k' in the spec.
-	private double N; // Referred to as 'n' in the paper.
-
+public interface CombinedEstimator {
 	/**
-	 * Constructs an estimator for EDR, TP, and TN given sample size
-	 * parameters from a two-group hypothesis test.
-	 *
-	 * @param model The mixture model, estimated from the sample distribution 
-	 * of p-values.
-	 * @param numberOfPValues The total number of p-values. This quantity is
-	 * called "k" in the reference paper.
-	 * @param N1 The sample size of the first group in the hypothesis test.
-	 * @param N2 The sample size of the second group in the hypothesis test.
-	 */
-	public CombinedEstimator(MixtureModel model, int numberOfPValues, int N1, int N2) {
-		if (model == null)
-			throw new NullPointerException("model");
-		if (numberOfPValues < 1) // Hmm.	
-			throw new IllegalArgumentException(String.valueOf(numberOfPValues));
-		if (N1 < 1)
-			throw new IllegalArgumentException(String.valueOf(N1));
-		if (N2 < 1)
-			throw new IllegalArgumentException(String.valueOf(N2));
-		this.model = model;
-		this.numberOfPValues = numberOfPValues;	
-		if (N1 != N2) // Calculate 'equivalent' equal group sample size.
-			this.N = 2. / (1. / N1 + 1. / N2);
-		else
-			this.N = N1;	
-	}
-
-	/**
-	 * Calculate estimates for EDR, TP, and TN using the parametric bootstrap
-	 * procedure described in http://dx.doi.org/10.1191/0962280204sm369ra.
+	 * Estimate the proportions of interest, TP, TN, and EDR at the
+	 * user-specified sample size and threshold.
 	 *
 	 * @param newN The sample size at which to calculate the estimates.
-	 * Called "n*" in the reference paper.
+	 * Called "n*" in the reference paper. Also known as the "extrapolated"
+	 * sample size.
 	 * @param threshold The threshold at which to calculate the estimates.
 	 * Called &tau; in the reference paper.
 	 * @param numberOfIterations The number of bootstrap iterations to perform.
 	 * Called "M" in the reference paper and set to M = 100 in the three 
-	 * examples presented.
+	 * examples presented therein.
 	 */
-	public Estimates calculateEstimates(int newN, double threshold, int numberOfIterations) {
-		if (newN < 1)
-			throw new IllegalArgumentException(String.valueOf(newN));
-		if (threshold < 0. || threshold > 1.)
-			throw new IllegalArgumentException(String.valueOf(threshold));
-		if (numberOfIterations < 1)
-			throw new IllegalArgumentException(String.valueOf(numberOfIterations));
-
-		double[] tp = new double[numberOfIterations];
-		double[] tn = new double[numberOfIterations];
-		double[] edr = new double[numberOfIterations];
-
-		// A, B, C, and D are the quantities of interest described in
-		// Table 1 in the reference paper.
-		for (int i = 0; i < numberOfIterations; i++) {
-			int[] counts = bootstrap(newN, threshold);
-			int A = counts[0], B = counts[1], C = counts[2], D = counts[3];
-			tp[i] = ((double) D) / (C + D);
-			tn[i] = ((double) A) / (A + B);
-			edr[i] = ((double) D) / (B + D);
-		}
-		return new Estimates(newN, threshold, tp, tn, edr);
-	}
+	Estimates estimateProportions(int newN, double threshold, int numberOfIterations);
 
 	/**
-	 * An instance of this class represents the estimates of EDR, TP, and TN
-	 * from a call to calculateEstimates().
+	 * An instance of this class represents the combined point and standard
+	 * error estimates for TP, TN, and EDR.
 	 */
-	public final class Estimates {
-		private int newN;
-		private double threshold;
-		private double[] tp, tn, edr;
-
-		private Estimates(int newN, double threshold, double[] tp, double[] tn, double[] edr) {
-			this.newN = newN;
-			this.threshold = threshold;
-			this.tp = tp; this.tn = tn; this.edr = edr;
-		}
-
+	public interface Estimates {
 		/**
-		 * Returns the sample size "n".
-		 * This is the sample size of each group in the hypothesis test.
-		 * If the sample sizes are not equal, an "equivalent" equal group 
-		 * sample size is calculated and used in the estimation procedure.
+		 * Returns the equal group sample size "n".
 		 */
-		public double getEquivalentSampleSize() { return N; }
+		double getEqualGroupSampleSize();
 
 		/**
 		 * Returns the "extrapolated" sample size at which the estimates
-		 * were calculated.
+		 * were calculated. 
+		 * Also known as "newN".
 		 */
-		public int getExtrapolatedSampleSize() { return newN; }
+		int getExtrapolatedSampleSize();
 
 		/**
 		 * Returns the threshold at which the estimates were calculated.
 		 */
-		public double getThreshold() { return threshold; }
+		double getThreshold();
 
 		/**
 		 * Returns the point estimate for the proportion of true positives (TP).
 		 */
-		public double getTP() { return Summary.mean(tp); }
+		double getTP();
 
 		/**
 		 * Returns the point estimate for the proportion of true negatives (TN).
 		 */
-		public double getTN() { return Summary.mean(tn); }
+		double getTN();
 
 		/**
 		 * Returns the point estimate for the expected discovery rate (EDR).
 		 */
-		public double getEDR() { return Summary.mean(edr); }
+		double getEDR();
 
 		/**
 		 * Returns the standard error for the proportion of true positives (TP).
 		 */
-		public double getStandardErrorForTP() { return Summary.sampleStandardDeviation(tp); }
+		double getStandardErrorForTP();
 
 		/**
 		 * Returns the standard error for the proportion of true negatives (TN).
 		 */
-		public double getStandardErrorForTN() { return Summary.sampleStandardDeviation(tn); }
+		double getStandardErrorForTN();
 
 		/**
 		 * Returns the standard error for the expected discovery rate (EDR).
 		 */
-		public double getStandardErrorForEDR() { return Summary.sampleStandardDeviation(edr); }
-
-		public String toString() {
-			String EOL = System.getProperty("line.separator");
-			StringBuffer buffer = new StringBuffer();
-			buffer.append(model.toString()).append(EOL);
-			buffer.append("Number of p-values = ").append(numberOfPValues).append(EOL);
-			buffer.append("N = ").append(getEquivalentSampleSize()).append(EOL);
-			buffer.append("Extrapolated N = ").append(getExtrapolatedSampleSize()).append(EOL);
-			buffer.append("threshold = ").append(getThreshold()).append(EOL);
-			buffer.append("TP = ").append(getTP()).append(EOL);
-			buffer.append("TN = ").append(getTN()).append(EOL);
-			buffer.append("EDR = ").append(getEDR()).append(EOL);
-			return buffer.toString().trim();
-		}
-	}
-
-	/* package private */ int[] bootstrap(int newN, double threshold) {
-		Random random = new Random();
-		double lambda0 = model.getLambda0();
-		double r = model.getR();
-		double s = model.getS();
-		// Number of genes for which the p-value comes from the uniform.
-		int u = -1; // A + C in paper.
-		if (lambda0 > 0. && lambda0 < 1.)
-			u = random.nextBinomial(numberOfPValues, lambda0); 
-		else if (lambda0 == 0.) // See HDB-104 in JIRA.
-			u = 0;
-		else if (lambda0 == 1.)
-			u = numberOfPValues;
-		else
-			throw new IllegalStateException(String.valueOf(lambda0));
-			
-		// p-values drawn from the uniform distribution.
-		double[] pValuesFromUniform = new double[u];
-		for (int i = 0; i < pValuesFromUniform.length; i++) {
-			pValuesFromUniform[i] = random.nextDouble();
-		}
-
-		// Number of genes for which the p-value comes from beta(r,s).
-		int b = numberOfPValues - u; // B + D in paper.
-		// p-values drawn from the beta(r,s) distribution.
-		double[] pValuesFromBeta = new double[b];
-		for (int i = 0; i < pValuesFromBeta.length; i++) {
-			pValuesFromBeta[i] = random.nextBeta(r, s);
-		}
-
-		double[] adjustedPValues = new double[pValuesFromBeta.length];
-		for (int i = 0; i < adjustedPValues.length; i++) {
-			adjustedPValues[i] = adjustT(pValuesFromBeta[i], N, newN);
-		}
-
-		// Calculate estimates for A, B, C, and D as defined in the paper.
-		int A = 0;
-		for (int i = 0; i < pValuesFromUniform.length; i++) {
-			if (pValuesFromUniform[i] > threshold) A++;
-		}
-		int D = 0;
-		for (int i = 0; i < adjustedPValues.length; i++) {
-			if (adjustedPValues[i] < threshold) D++;
-		}
-		// The variable declared as 'b' == B + D in the paper.
-		int B = b - D;
-		// The variable declared as 'u' == A + C in the paper.
-		int C = u - A;
-
-		return new int[] { A, B, C, D };
-	}
-
-	private double adjustT(double p, double N, double newN) { // Note N alias.
-		double df = 2. * N - 2.;
-		double t = Cdf.inverseStudentsT(p / 2., df); // Adjust for two tails.
-		double newDF = 2. * newN - 2.;
-		double newT = t * Math.sqrt(newN / N);
-		return 2. * Cdf.studentsT(newT, newDF); // Adjust for two tails.
+		double getStandardErrorForEDR();
 	}
 }
