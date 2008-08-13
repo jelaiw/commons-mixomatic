@@ -13,10 +13,6 @@ public final class TestPValueParser extends TestCase {
 	public void testRealPValues() throws IOException {
 		PValueParser parser = new PValueParser();
 		double[] pvalues = parser.parse(ClassLoader.getSystemResourceAsStream("edu/uab/ssg/mixomatic/pvalues.txt"), new PValueParser.BadFormatHandler() {
-			public void handleBadPValue(double badPValue) {
-				Assert.fail(String.valueOf(badPValue));
-			}
-
 			public void handleBadPValue(String badPValue) {
 				Assert.fail(badPValue);
 			}
@@ -29,12 +25,14 @@ public final class TestPValueParser extends TestCase {
 	public void testBadFormat() throws IOException {
 		PValueParser parser = new PValueParser();
 		double[] pvalues = parser.parse(ClassLoader.getSystemResourceAsStream("edu/uab/ssg/mixomatic/helper/bad_pvalues.txt"), new PValueParser.BadFormatHandler() {
-			public void handleBadPValue(double badPValue) {
-				Assert.assertTrue(1.000259375 == badPValue);
-			}
-
 			public void handleBadPValue(String badPValue) {
-				Assert.assertEquals("foobar", badPValue);
+				// Make sure one of the two spiked-in bad values are caught.
+				if ("1.000259375".equals(badPValue))
+					Assert.assertTrue(true);
+				else if ("foobar".equals(badPValue))
+					Assert.assertTrue(true);
+				else
+					Assert.fail();
 			}
 		});
 		Assert.assertEquals(8, pvalues.length);

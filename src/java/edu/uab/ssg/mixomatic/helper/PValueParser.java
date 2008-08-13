@@ -9,7 +9,6 @@ import java.io.*;
  */
 public final class PValueParser {
 	public interface BadFormatHandler {
-		void handleBadPValue(double badPValue);
 		void handleBadPValue(String badPValue);
 	}
 
@@ -32,9 +31,9 @@ public final class PValueParser {
 			}
 
 			if (d.doubleValue() < 0. || d.doubleValue() > 1.) // Bad p-value.
-				handler.handleBadPValue(d.doubleValue());
+				handler.handleBadPValue(line);
 			else // Good p-value.
-				list.add(Double.valueOf(line));
+				list.add(d);
 		}
 		reader.close();
 		return asArray(list);
