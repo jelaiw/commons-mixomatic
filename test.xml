@@ -54,4 +54,14 @@
 		</junit>
 		<fail if="tests.failed" message="Test(s) failed."/>
 	</target>
+
+	<target name="histogram">
+		<java classname="edu.uab.ssg.mixomatic.plot.Histogram">
+			<classpath>
+				<pathelement location="${classes.dir}"/>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<arg value="${input.file}"/>
+		</java>
+	</target>
 </project>
