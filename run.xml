@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<project>
+	<target name="run-mini-analysis">
+		<fail message="Need to define input.filename property." unless="input.filename"/>
+		<java classname="edu.uab.ssg.mixomatic.helper.MiniAnalysis">
+			<classpath>
+				<pathelement location="${classes.dir}"/>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<arg value="${input.filename}"/>
+		</java>
+	</target>
+</project>

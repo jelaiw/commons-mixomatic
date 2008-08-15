@@ -8,6 +8,7 @@
 	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
 
 	<import file="test.xml"/>
+	<import file="run.xml"/>
 
 	<path id ="compile.classpath">
 		<fileset dir="${vendor.lib.dir}">

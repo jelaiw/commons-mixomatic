@@ -20,6 +20,7 @@ import java.io.*;
 
 public final class Histogram {
 	private static final int NUMBER_OF_BINS = 20;
+	private static final int WIDTH = 680, HEIGHT = 510;
 	private MixtureModel model;
 	private double[] pvalues;
 	private ProbabilityDensityFunction function;
@@ -58,14 +59,10 @@ public final class Histogram {
 		chart.addSubtitle(textTitle);
 	}
 
-	public void write(OutputStream out, int width, int height) throws IOException {
+	public void writePNG(OutputStream out) throws IOException {
 		if (out == null)
 			throw new NullPointerException("out");
-		if (width < 1)
-			throw new IllegalArgumentException(String.valueOf(width));
-		if (height < 1)
-			throw new IllegalArgumentException(String.valueOf(height));
-		ChartUtilities.writeChartAsPNG(out, chart, width, height);
+		ChartUtilities.writeChartAsPNG(out, chart, WIDTH, HEIGHT);
 	}
 
 	public MixtureModel getMixtureModel() { return model; }
@@ -85,7 +82,7 @@ public final class Histogram {
 			public double getValue(double x) {
 				return function.evaluate(model, x);
 			}
-		}, 0.005, 0.995, 150, "fitted mix-o-matic density function");
+		}, 0.005, 0.995, 150, "mix-o-matic density function");
 		XYItemRenderer functionRenderer = new StandardXYItemRenderer();		
 		functionRenderer.setBaseStroke(new BasicStroke(3.0f));	
 		plot.setDataset(1, functionData);
@@ -141,20 +138,5 @@ public final class Histogram {
 			DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE, 
 			DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE, 
 			DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE);
-	}
-
-	public static void main(String[] args) throws java.io.IOException, MixomaticException {
-		edu.uab.ssg.mixomatic.helper.PValueParser parser = new edu.uab.ssg.mixomatic.helper.PValueParser();
-		double[] pvalues = parser.parse(new java.io.FileInputStream(args[0]), new edu.uab.ssg.mixomatic.helper.PValueParser.BadFormatHandler() {
-			public void handleBadPValue(String badPValue) {
-				System.err.println("Skipped bad input: " + badPValue);
-			}
-		});
-		MixtureModel.Estimator estimator = new edu.uab.ssg.mixomatic.flanagan.BoundedOptimizer();
-		MixtureModel.Estimate estimate = estimator.estimateParameters(pvalues);
-		ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultProbabilityDensityFunction();
-		Histogram histogram = new Histogram(estimate, pvalues, function);
-		histogram.addSubtitle(args[0]);
-		histogram.write(new FileOutputStream("histogram.png"), 1024, 768);
 	}
 }
