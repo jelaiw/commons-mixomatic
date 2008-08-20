@@ -20,7 +20,7 @@ public final class MiniAnalysis {
 		String inputFileName = args[0];
 
 		PValueParser parser = new PValueParser();
-		System.out.println("Reading input file: " + inputFileName + ".");
+		System.out.println("Reading input file: " + inputFileName);
 		double[] pvalues = parser.parse(new FileInputStream(inputFileName), new PValueParser.BadFormatHandler() {
 			public void handleBadPValue(String badPValue) {
 				System.err.println("Skipped bad input: " + badPValue);
