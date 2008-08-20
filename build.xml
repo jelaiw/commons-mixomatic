@@ -34,6 +34,6 @@
 	</target>
 
 	<target name="javadoc" depends="-prepare" description="Generate Javadoc API documentation.">
-		<javadoc packagenames="edu.uab.ssg.mixomatic.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false"/>
+		<javadoc packagenames="edu.uab.ssg.mixomatic.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath"/>
 	</target>
 </project>
