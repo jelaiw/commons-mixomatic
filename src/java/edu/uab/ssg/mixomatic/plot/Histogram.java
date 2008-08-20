@@ -14,6 +14,10 @@ import java.awt.*;
 import java.io.*;
 
 /**
+ * Histogram of a p-value distribution with overlaid curves for
+ * the mix-o-matic density function (fitted to the p-values) and the 
+ * uniform density function (expected under the null hypothesis).
+ *
  * @author Jelai Wang
  * @version 1/25/05
  */
@@ -21,15 +25,17 @@ import java.io.*;
 public final class Histogram {
 	private static final int NUMBER_OF_BINS = 20;
 	private static final int WIDTH = 680, HEIGHT = 510;
-	private MixtureModel model;
 	private double[] pvalues;
-	private ProbabilityDensityFunction function;
+	private MixtureModel model;
 	private JFreeChart chart;
 
-	public Histogram(MixtureModel model, double[] pvalues, ProbabilityDensityFunction function) {
-		if (model == null)
-			throw new NullPointerException("model");
-		this.model = model;
+	/**
+	 * Construct the histogram.
+	 * @param pvalues The distribution of p-values.
+	 * @throws MixomaticException if the mix-o-matic procedure cannot fit
+	 * a mixture model to the p-value distribution.
+	 */
+	public Histogram(double[] pvalues) throws MixomaticException {
 		if (pvalues == null)
 			throw new NullPointerException("pvalues");
 		if (pvalues.length < 1)
@@ -39,10 +45,7 @@ public final class Histogram {
 				throw new IllegalArgumentException(i + " " + pvalues[i]);
 		}
 		this.pvalues = (double[]) pvalues.clone();
-		if (function == null)
-			throw new NullPointerException("function");
-		this.function = function;
-
+		this.model = new edu.uab.ssg.mixomatic.flanagan.BoundedOptimizer().estimateParameters(this.pvalues);
 		this.chart = new JFreeChart(createXYPlot());
 		chart.setTitle("Histogram of p-values");
 		chart.getTitle().setFont(new Font("SansSerif", Font.BOLD, 26));
@@ -51,6 +54,9 @@ public final class Histogram {
 		legend.setItemFont(legend.getItemFont().deriveFont(18f));
 	}
 
+	/**
+	 * Add a subtitle.
+	 */
 	public void addSubtitle(String subtitle) {
 		if (subtitle == null)
 			throw new NullPointerException("subtitle");
@@ -59,15 +65,21 @@ public final class Histogram {
 		chart.addSubtitle(textTitle);
 	}
 
+	/**
+	 * Write the histogram in PNG image format to an output stream.
+	 * @param out The output stream, typically a file output stream.
+	 */
 	public void writePNG(OutputStream out) throws IOException {
 		if (out == null)
 			throw new NullPointerException("out");
 		ChartUtilities.writeChartAsPNG(out, chart, WIDTH, HEIGHT);
+		out.close();
 	}
 
-	public MixtureModel getMixtureModel() { return model; }
+	/**
+	 * Return the p-value distribution.
+	 */
 	public double[] getPValues() { return (double[]) pvalues.clone(); }
-	public ProbabilityDensityFunction getProbabilityDensityFunction() { return function; }
 
 	private XYPlot createXYPlot() {
 		XYPlot plot = new XYPlot();
@@ -78,6 +90,7 @@ public final class Histogram {
 		plot.setDataset(0, dataset);
 		plot.setRenderer(0, new XYBarRenderer(0.1));
 		// Set up mix-o-matic probability density function.
+		final ProbabilityDensityFunction function = new edu.uab.ssg.mixomatic.jsci.DefaultProbabilityDensityFunction();
 		XYDataset functionData = DatasetUtilities.sampleFunction2D(new Function2D() {
 			public double getValue(double x) {
 				return function.evaluate(model, x);
