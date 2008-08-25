@@ -29,7 +29,7 @@ public final class BootstrapEstimator implements CombinedEstimator {
 	/**
 	 * Constructs an estimator given sample size parameters from 
 	 * a two-group hypothesis test.
-	 * If N1 and N2 are not equal, and "equivalent" equal group
+	 * If N1 and N2 are not equal, an "equivalent" equal group
 	 * sample size is calculated and used in subsequent calculations.
 	 *
 	 * @param model The mixture model, estimated from the sample distribution 
