@@ -1,13 +1,12 @@
-package edu.uab.ssg.mixomatic.power.jmsl;
+package edu.uab.ssg.mixomatic.power;
 
-import edu.uab.ssg.mixomatic.power.CombinedEstimator;
 import edu.uab.ssg.mixomatic.*;
 import junit.framework.TestCase;
 import junit.framework.Assert;
 
 /**
  *	@author Jelai Wang
- *	@version $Rev$ $LastChangedDate$ $LastChangedBy$ 5/22/06
+ *	@version $Rev: 83 $ $LastChangedDate: 2008-08-11 14:17:18 -0500 (Mon, 11 Aug 2008) $ $LastChangedBy: jelaiw $ 5/22/06
  */
 
 public final class TestBootstrapEstimator extends TestCase {
@@ -36,8 +35,8 @@ public final class TestBootstrapEstimator extends TestCase {
 		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 5, n2 = 5;
 		int k = 12488;
-		CombinedEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
-		CombinedEstimator.Estimates estimate = null;
+		BootstrapEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
+		BootstrapEstimator.Estimate estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.estimateProportions(10, 0.01, 100);
 		Assert.assertEquals(0.630357, estimate.getTP(), 2. * estimate.getStandardErrorForTP());
@@ -55,8 +54,8 @@ public final class TestBootstrapEstimator extends TestCase {
 		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 3, n2 = 3;
 		int k = 12625;
-		CombinedEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
-		CombinedEstimator.Estimates estimate = null;
+		BootstrapEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
+		BootstrapEstimator.Estimate estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.estimateProportions(10, 0.01, 100);
 		Assert.assertEquals(0.972166, estimate.getTP(), 2. * estimate.getStandardErrorForTP());
@@ -74,8 +73,8 @@ public final class TestBootstrapEstimator extends TestCase {
 		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 5, n2 = 5;
 		int k = 12548;
-		CombinedEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
-		CombinedEstimator.Estimates estimate = null;
+		BootstrapEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
+		BootstrapEstimator.Estimate estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.estimateProportions(40, 0.00001, 100);
 		Assert.assertEquals(0.999928, estimate.getTP(), 2. * estimate.getStandardErrorForTP());
@@ -93,8 +92,8 @@ public final class TestBootstrapEstimator extends TestCase {
 		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 19, n2 = 19;
 		int k = 63149;
-		CombinedEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
-		CombinedEstimator.Estimates estimate = null;
+		BootstrapEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
+		BootstrapEstimator.Estimate estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.estimateProportions(20, 0.0001, 100);
 		Assert.assertEquals(0.996688, estimate.getTP(), 2. * estimate.getStandardErrorForTP());
@@ -112,8 +111,8 @@ public final class TestBootstrapEstimator extends TestCase {
 		MixtureModel model = new DefaultModel(lambda0, r, s);
 		int n1 = 10, n2 = 5; 
 		int k = 12625;
-		CombinedEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
-		CombinedEstimator.Estimates estimate = null;
+		BootstrapEstimator estimator = new BootstrapEstimator(model, k, n1, n2);
+		BootstrapEstimator.Estimate estimate = null;
 		// Extrapolate to bigger sample size.
 		estimate = estimator.estimateProportions(10, 0.01, 100);
 		Assert.assertEquals(0.942083, estimate.getTP(), 2. * estimate.getStandardErrorForTP());

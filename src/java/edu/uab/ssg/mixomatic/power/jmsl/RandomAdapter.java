@@ -14,7 +14,7 @@ public final class RandomAdapter implements BootstrapEstimator.RandomNumberGener
 		this.random = new Random();
 	}
 
-	public double nextBinomial(int n, double p) {
+	public int nextBinomial(int n, double p) {
 		return random.nextBinomial(n, p);
 	}
 
