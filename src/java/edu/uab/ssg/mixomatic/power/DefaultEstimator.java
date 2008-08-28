@@ -8,6 +8,10 @@ import edu.uab.ssg.mixomatic.MixtureModel;
  * estimates of the expected discovery rate (EDR), the proportion of true 
  * positives (TP), and the proportion of true negatives (TN).
  *
+ * The current implementation performs M = 100 bootstrap iterations and
+ * uses JMSL-based implementations for the RandomNumberGenerator and
+ * PValueAdjuster.
+ *
  * @author Jelai Wang
  * @version $Rev: 94 $ $LastChangedDate: 2008-08-25 15:58:23 -0500 (Mon, 25 Aug 2008) $ $LastChangedBy: jelaiw $ 5/22/2006
  */
