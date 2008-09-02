@@ -7,11 +7,15 @@ import com.imsl.stat.Summary;
  */
 
 /* package private */ final class DefaultEstimate implements BootstrapEstimator.Estimate {
+	private BootstrapEstimator.Configuration configuration;
 	private int sampleSize;
 	private double significanceLevel;
 	private double[] tp, tn, edr;
 
-	/* package private */ DefaultEstimate(int sampleSize, double significanceLevel, double[] tp, double[] tn, double[] edr) {
+	/* package private */ DefaultEstimate(BootstrapEstimator.Configuration configuration, int sampleSize, double significanceLevel, double[] tp, double[] tn, double[] edr) {
+		if (configuration == null)
+			throw new NullPointerException("configuration");
+		this.configuration = configuration;
 		if (sampleSize < 0)
 			throw new IllegalArgumentException(String.valueOf(sampleSize));
 		this.sampleSize = sampleSize;
@@ -31,6 +35,7 @@ import com.imsl.stat.Summary;
 	   	this.edr = edr;
 	}
 
+	public BootstrapEstimator.Configuration getConfiguration() { return configuration; }
 	public int getSampleSize() { return sampleSize; }
 	public double getSignificanceLevel() { return significanceLevel; }
 	public double getTP() { return Summary.mean(tp); }

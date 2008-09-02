@@ -40,6 +40,11 @@ public interface BootstrapEstimator {
 	 */
 	public interface Estimate {
 		/**
+		 * Return the estimator configuration.
+		 */
+		Configuration getConfiguration();
+
+		/**
 		 * Return the sample size at which the estimates were calculated.
 		 * Called n* in the paper.
 		 */
@@ -120,11 +125,23 @@ public interface BootstrapEstimator {
 		double nextUniform();
 
 		/**
-		 * Return a random number from the beta distribution with shape
-		 * parameters r and s.
-		 * @param r The first beta shape parameter.
-		 * @param s The second beta shape parameter.
+		 * Return a random number from the beta distribution
+		 * with parameters r and s.
 		 */
 		double nextBeta(double r, double s);
+	}
+
+	/**
+	 * Return the estimator configuration.
+	 */
+	Configuration getConfiguration();
+
+	public interface Configuration {
+		/**
+		 * Return the number of bootstrap iterations.
+		 */
+		int getNumberOfIterations();
+		PValueAdjuster getPValueAdjuster();
+		RandomNumberGenerator getRandomNumberGenerator();
 	}
 }
