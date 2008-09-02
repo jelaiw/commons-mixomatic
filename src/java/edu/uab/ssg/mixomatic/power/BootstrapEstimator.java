@@ -13,14 +13,14 @@ import edu.uab.ssg.mixomatic.MixtureModel;
 
 public interface BootstrapEstimator {
 	/**
-	 * Estimate the proportions of interest, TP, TN, and EDR at the
+	 * Estimate the proportions of interest, TP, TN, and EDR, at the
 	 * user-specified sample size and significance level.
-	 * Assumes the client programmer conducted many, valid two-group
-	 * hypothesis tests to obtain a sample distribution of p-values (from 
-	 * those tests) and fitted a mixture model, using a MixtureModel.Estimator,
+	 * Assumes the client programmer has conducted many, valid two-group
+	 * hypothesis tests to obtain a sample distribution of p-values, from 
+	 * those tests, and fitted a mixture model, using a MixtureModel.Estimator,
 	 * to this distribution of p-values.
-	 * If N1 != N2, then an "equivalent" equal group sample size, called "n"
-	 * in the paper, is calculated.
+	 * If N1 != N2, then an equal group sample size, called n in the paper, 
+	 * is calculated and used in subsequent calculations.
 	 *
 	 * @param estimate The mixture model estimate.
 	 * @param N1 The sample size of the first group in the two-group
@@ -28,9 +28,10 @@ public interface BootstrapEstimator {
 	 * @param N2 The sample size of the second group in the two-group
 	 * hypothesis test.
 	 * @param n_ The sample size at which to calculate the estimates.
-	 * Called "n*" in the paper.
+	 * Called n* in the paper.
 	 * @param significanceLevel The signficance level at which to calculate 
-	 * the estimates. This is the threshold called &tau; in the paper.
+	 * the estimates. 
+	 * Called threshold &tau; in the paper.
 	 */
 	Estimate estimateProportions(MixtureModel.Estimate estimate, int N1, int N2, int n_, double significanceLevel);
 
@@ -40,11 +41,13 @@ public interface BootstrapEstimator {
 	public interface Estimate {
 		/**
 		 * Return the sample size at which the estimates were calculated.
+		 * Called n* in the paper.
 		 */
 		int getSampleSize();
 
 		/**
 		 * Return the significance level at which the estimates were calculated.
+		 * Called threshold &tau; in the paper.
 		 */
 		double getSignificanceLevel();
 
@@ -79,13 +82,49 @@ public interface BootstrapEstimator {
 		double getStandardErrorForEDR();
 	}
 
+	/**
+	 * An implementation of the algorithm for "adjusting" a p-value from 
+	 * a hypothesis test to the "adjusted" p-value that would have been 
+	 * produced from the same hypothesis test conducted at a different 
+	 * sample size.
+	 * The paper uses a t-test when describing this algorithm "though a
+	 * p-value from any valid test can be used as long as it can be
+	 * back-transformed to the test statistic that produced it".
+	 */
 	public interface PValueAdjuster {
+		/**
+		 * Adjust the user-supplied p-value, produced from a test with
+		 * sample size n, to a new p-value, as if produced from a test
+		 * with new sample size, n_ (called n* in the paper).
+		 */
 		double adjustPValue(double pvalue, double n, int n_);
 	}
 
+	/**
+	 * The bootstrap procedure described in the paper requires a random
+	 * number generator that provides random numbers from the binomial, 
+	 * uniform, and beta distributions.
+	 */
 	public interface RandomNumberGenerator {
+		/**
+		 * Return a random number from the binomial distribution.
+		 * @param n The number of Bernoulli trials to perform.
+		 * @param p The probability of success for each trial.
+		 */
 		int nextBinomial(int n, double p);
+
+		/**
+		 * Return a random number from the uniform distribution 
+		 * between 0 and 1.
+		 */
 		double nextUniform();
+
+		/**
+		 * Return a random number from the beta distribution with shape
+		 * parameters r and s.
+		 * @param r The first beta shape parameter.
+		 * @param s The second beta shape parameter.
+		 */
 		double nextBeta(double r, double s);
 	}
 }
