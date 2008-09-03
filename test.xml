@@ -12,6 +12,7 @@
 	<path id="test.compile.classpath">
 		<fileset dir="${vendor.lib.dir}">
 			<include name="junit-3.8.1.jar"/>
+			<include name="easymock-2.4.jar"/>
 		</fileset>
 	</path>
 

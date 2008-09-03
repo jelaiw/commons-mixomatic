@@ -27,25 +27,15 @@ public final class DefaultEstimator implements BootstrapEstimator {
 	 * @param numberOfIterations The number of bootstrap iterations.
 	 * Called M in the paper.
 	 */
-	public DefaultEstimator(final int numberOfIterations, final BootstrapEstimator.PValueAdjuster adjuster, final BootstrapEstimator.RandomNumberGenerator rng) {
-		if (numberOfIterations < 1)
-			throw new IllegalArgumentException(String.valueOf(numberOfIterations));
-		if (adjuster == null)
-			throw new NullPointerException("adjuster");
-		if (rng == null)
-			throw new NullPointerException("rng");
-		this.configuration = new BootstrapEstimator.Configuration() {
-			public int getNumberOfIterations() { return numberOfIterations; }
-			public PValueAdjuster getPValueAdjuster() { return adjuster; }
-			public RandomNumberGenerator getRandomNumberGenerator() { return rng; }
-		};
+	public DefaultEstimator(int numberOfIterations, BootstrapEstimator.PValueAdjuster adjuster, BootstrapEstimator.RandomNumberGenerator rng) {
+		this.configuration = new DefaultConfiguration(numberOfIterations, adjuster, rng);
 	}
 
 	public BootstrapEstimator.Configuration getConfiguration() { return configuration; }
 
-	public Estimate estimateProportions(MixtureModel.Estimate estimate, int N1, int N2, int n_, double significanceLevel) {
-		if (estimate == null)
-			throw new NullPointerException("estimate");
+	public Estimate estimateProportions(MixtureModel.Estimate model, int N1, int N2, int n_, double significanceLevel) {
+		if (model == null)
+			throw new NullPointerException("model");
 		if (N1 < 1)
 			throw new IllegalArgumentException(String.valueOf(N1));
 		if (N2 < 1)
@@ -63,13 +53,13 @@ public final class DefaultEstimator implements BootstrapEstimator {
 		// A, B, C, and D are the quantities of interest described in
 		// Table 1 in the reference paper.
 		for (int i = 0; i < numberOfIterations; i++) {
-			int[] counts = bootstrap(estimate, n, n_, significanceLevel);
+			int[] counts = bootstrap(model, n, n_, significanceLevel);
 			int A = counts[0], B = counts[1], C = counts[2], D = counts[3];
 			tp[i] = ((double) D) / (C + D);
 			tn[i] = ((double) A) / (A + B);
 			edr[i] = ((double) D) / (B + D);
 		}
-		return new DefaultEstimate(configuration, n_, significanceLevel, tp, tn, edr);
+		return new DefaultEstimate(configuration, model, n, n_, significanceLevel, tp, tn, edr);
 	}
 
 	/* package private */ double calculateEqualGroupSampleSize(int N1, int N2) {
@@ -79,11 +69,11 @@ public final class DefaultEstimator implements BootstrapEstimator {
 			return N1;
 	}
 
-	/* package private */ int[] bootstrap(MixtureModel.Estimate estimate, double n, int n_, double significanceLevel) {
+	/* package private */ int[] bootstrap(MixtureModel.Estimate model, double n, int n_, double significanceLevel) {
 		RandomNumberGenerator rng = configuration.getRandomNumberGenerator();
 		PValueAdjuster adjuster = configuration.getPValueAdjuster();
-		int numberOfPValues = estimate.getSample().length;
-		double lambda0 = estimate.getLambda0();
+		int numberOfPValues = model.getSample().length;
+		double lambda0 = model.getLambda0();
 		// Number of genes for which the p-value comes from the uniform.
 		int u = -1; // A + C in paper.
 		if (lambda0 > 0. && lambda0 < 1.)
@@ -100,8 +90,8 @@ public final class DefaultEstimator implements BootstrapEstimator {
 			pValuesFromUniform[i] = rng.nextUniform();
 		}
 
-		double r = estimate.getR();
-		double s = estimate.getS();
+		double r = model.getR();
+		double s = model.getS();
 		// Number of genes for which the p-value comes from beta(r,s).
 		int b = numberOfPValues - u; // B + D in paper.
 		// p-values drawn from the beta(r,s) distribution.

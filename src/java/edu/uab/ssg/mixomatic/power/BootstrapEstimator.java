@@ -45,6 +45,17 @@ public interface BootstrapEstimator {
 		Configuration getConfiguration();
 
 		/**
+		 * Return the mixture model estimate given as an argument.
+		 */
+		MixtureModel.Estimate getModel();
+
+		/**
+		 * Return the equal group sample size, calculated as 
+		 * 2 / (1 / N1 + 1 / N2) if N1 != N2.
+		 */
+		double getEqualGroupSampleSize();
+
+		/**
 		 * Return the sample size at which the estimates were calculated.
 		 * Called n* in the paper.
 		 */

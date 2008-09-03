@@ -12,6 +12,11 @@
 
 	<path id ="compile.classpath">
 		<fileset dir="${vendor.lib.dir}">
+			<include name="flanagan.jar"/>
+			<include name="jfreechart-1.0.10.jar"/>
+			<include name="jcommon-1.0.13.jar"/>
+			<include name="jmsl-5.0.1.jar"/>
+			<include name="jsci-core-0.93.jar"/>
 		</fileset>
 	</path>
 
