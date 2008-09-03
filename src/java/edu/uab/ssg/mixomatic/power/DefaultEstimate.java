@@ -1,7 +1,8 @@
 package edu.uab.ssg.mixomatic.power;
 
 import edu.uab.ssg.mixomatic.MixtureModel;
-import com.imsl.stat.Summary;
+import cern.colt.list.DoubleArrayList;
+import cern.jet.stat.Descriptive;
 
 /**
  * @author Jelai Wang
@@ -13,7 +14,7 @@ import com.imsl.stat.Summary;
 	private double equalGroupSampleSize;
 	private int sampleSize;
 	private double significanceLevel;
-	private double[] tp, tn, edr;
+	private DoubleArrayList tp, tn, edr;
 
 	/* package private */ DefaultEstimate(BootstrapEstimator.Configuration configuration, MixtureModel.Estimate model, double equalGroupSampleSize, int sampleSize, double significanceLevel, double[] tp, double[] tn, double[] edr) {
 		if (configuration == null)
@@ -39,9 +40,9 @@ import com.imsl.stat.Summary;
 		this.equalGroupSampleSize = equalGroupSampleSize;
 		this.sampleSize = sampleSize;
 		this.significanceLevel = significanceLevel;
-		this.tp = tp; 
-		this.tn = tn;
-	   	this.edr = edr;
+		this.tp = new DoubleArrayList(tp); 
+		this.tn = new DoubleArrayList(tn); 
+		this.edr = new DoubleArrayList(edr); 
 	}
 
 	public BootstrapEstimator.Configuration getConfiguration() { return configuration; }
@@ -49,12 +50,22 @@ import com.imsl.stat.Summary;
 	public double getEqualGroupSampleSize() { return equalGroupSampleSize; }
 	public int getSampleSize() { return sampleSize; }
 	public double getSignificanceLevel() { return significanceLevel; }
-	public double getTP() { return Summary.mean(tp); }
-	public double getTN() { return Summary.mean(tn); }
-	public double getEDR() { return Summary.mean(edr); }
-	public double getStandardErrorForTP() { return Summary.sampleStandardDeviation(tp); }
-	public double getStandardErrorForTN() { return Summary.sampleStandardDeviation(tn); }
-	public double getStandardErrorForEDR() { return Summary.sampleStandardDeviation(edr); }
+	public double getTP() { return Descriptive.mean(tp); }
+	public double getTN() { return Descriptive.mean(tn); }
+	public double getEDR() { return Descriptive.mean(edr); }
+
+	public double getStandardErrorForTP() { return sampleStandardDeviation(tp); }
+	public double getStandardErrorForTN() { return sampleStandardDeviation(tn); }
+	public double getStandardErrorForEDR() { return sampleStandardDeviation(edr); }
+
+	// NOTE: We decided not to use Descriptive.sampleStandardDeviation().
+	// For details, see literature regarding the correction factor for the 
+	// bias introducted by taking the square root of the sample variance.
+	private double sampleStandardDeviation(DoubleArrayList list) {
+		double sampleVariance = Descriptive.sampleVariance(edr, getEDR());
+//		return Descriptive.sampleStandardDeviation(list.size(), sampleVariance); 
+		return Math.sqrt(sampleVariance);
+	}
 
 	public String toString() {
 		String EOL = System.getProperty("line.separator");
