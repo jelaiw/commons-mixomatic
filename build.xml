@@ -18,6 +18,7 @@
 			<include name="jmsl-5.0.1.jar"/>
 			<include name="jsci-core-0.93.jar"/>
 			<include name="colt-1.2.0.jar"/>
+			<include name="commons-math-1.2.jar"/>
 		</fileset>
 	</path>
 

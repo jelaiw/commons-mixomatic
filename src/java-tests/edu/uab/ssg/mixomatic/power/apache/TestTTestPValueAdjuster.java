@@ -1,4 +1,4 @@
-package edu.uab.ssg.mixomatic.power.jmsl;
+package edu.uab.ssg.mixomatic.power.apache;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
