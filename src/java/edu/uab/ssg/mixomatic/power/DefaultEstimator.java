@@ -19,7 +19,7 @@ public final class DefaultEstimator implements BootstrapEstimator {
 	 * adjuster and random number generator implementations.
 	 */
 	public DefaultEstimator() {
-		this(100, new edu.uab.ssg.mixomatic.power.jmsl.TTestPValueAdjuster(), new edu.uab.ssg.mixomatic.power.jmsl.RandomAdapter());
+		this(100, new edu.uab.ssg.mixomatic.power.jmsl.TTestPValueAdjuster(), new edu.uab.ssg.mixomatic.power.colt.RandomAdapter());
 	}
 
 	/**
