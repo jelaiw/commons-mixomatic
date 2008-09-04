@@ -4,6 +4,8 @@ import edu.uab.ssg.mixomatic.power.BootstrapEstimator;
 import com.imsl.stat.Random;
 
 /**
+ * An adapter for the random number generator com.imsl.stat.Random in the JMSL.
+ *
  * @author Jelai Wang
  */
 

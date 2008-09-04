@@ -3,6 +3,11 @@ package edu.uab.ssg.mixomatic.power.jmsl;
 import edu.uab.ssg.mixomatic.power.BootstrapEstimator;
 import com.imsl.stat.Cdf;
 
+/**
+ * A p-value adjuster for the t-test based on com.imsl.stat.Cdf in the JMSL.
+ *
+ * @author Jelai Wang
+ */
 public final class TTestPValueAdjuster implements BootstrapEstimator.PValueAdjuster {
 	public double adjustPValue(double pvalue, double n, int n_) {
 		// Figure out the test statistic, t, corresponding to this p-value.
