@@ -28,10 +28,10 @@ public final class TTestPValueAdjuster implements BootstrapEstimator.PValueAdjus
 		// Calculate an adjusted t-statistic using the new sample size, n_.
 		double df_ = 2. * n_ - 2.;
 		double t_ = t * Math.sqrt(n_ / n);
-		// Return the adjusted p-value, equal to the total tail area
-		// available for rejection of a hypothesis in a two-tailed t-test.
 		dist.setDegreesOfFreedom(df_);
 
+		// Return the adjusted p-value. For a two-tailed t-test, it is equal 
+		// to the total tail area available for rejection of the hypothesis.
 		try {
 			return 2. * dist.cumulativeProbability(t_);
 		}
