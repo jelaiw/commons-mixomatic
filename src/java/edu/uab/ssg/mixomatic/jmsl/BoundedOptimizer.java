@@ -22,7 +22,7 @@ import com.imsl.IMSLException;
 public final class BoundedOptimizer implements MixtureModel.Estimator {
 	/**
 	 * This is the default configuration, with bounds specified by 
-	 * <tt>0 &lt; &lambda;<sub><span>0</span></sub> &lt; 1</tt>,
+	 * <tt>0 &lt; &lambda;<sub>0</sub> &lt; 1</tt>,
 	 * <tt>r &gt; 0</tt>,
 	 * <tt>s &gt; 0</tt>,
 	 * and a custom grid search to find a starting point.
@@ -31,7 +31,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 
 	/**
 	 * This is a "restricted" configuration, with bounds specified by 
-	 * <tt>0 &lt; &lambda;<sub><span>0</span></sub> &lt; 1</tt>,
+	 * <tt>0 &lt; &lambda;<sub>0</sub> &lt; 1</tt>,
 	 * <tt>0 &lt; r &lt; 1</tt>,
 	 * <tt>s &gt; 1</tt>,
 	 * and a custom grid search to find a starting point.
