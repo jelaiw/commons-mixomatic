@@ -19,12 +19,12 @@ package edu.uab.ssg.mixomatic.helper;
 
 public interface OptimizerConfiguration {
 	/**
-	 * Return the lower bounds of &lambda;&#8320;, r, and s.
+	 * Return the lower bounds of &lambda;<sub><span>0</span></sub>, r, and s.
 	 */
 	LowerBounds getLowerBounds();
 
 	/**
-	 * Return the upper bounds of &lambda;&#8320;, r, and s.
+	 * Return the upper bounds of &lambda;<sub><span>0</span></sub>, r, and s.
 	 */
 	UpperBounds getUpperBounds();
 
@@ -44,7 +44,7 @@ public interface OptimizerConfiguration {
 	 */
 	public interface LowerBounds {
 		/**
-		 * Return the lower bound of &lambda;&#8320;.
+		 * Return the lower bound of &lambda;<sub><span>0</span></sub>.
 		 */
 		double getLambda0();
 
@@ -65,7 +65,7 @@ public interface OptimizerConfiguration {
 	 */
 	public interface UpperBounds {
 		/**
-		 * Return the upper bound of &lambda;&#8320;.
+		 * Return the upper bound of &lambda;<sub><span>0</span></sub>.
 		 */
 		double getLambda0();
 
@@ -85,7 +85,7 @@ public interface OptimizerConfiguration {
 	 */
 	public interface StartingPoint {
 		/**
-		 * Return the starting value of &lambda;&#8320;.
+		 * Return the starting value of &lambda;<sub><span>0</span></sub>.
 		 */
 		double getLambda0();
 
