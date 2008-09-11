@@ -23,8 +23,8 @@ public final class CombinedPlot {
 	private JFreeChart chart;
 
 	/**
-	 * Construct a combined plot.
-	 * @param estimates The estimates for EDR, TP, and TN at various
+	 * Construct plot given bootstrap estimates of the proportions of interest.
+	 * @param estimates The bootstrap estimates for EDR, TP, and TN at various
 	 * sample sizes. Must be estimated at the same threshold for
 	 * significance or an exception is thrown.
 	 */

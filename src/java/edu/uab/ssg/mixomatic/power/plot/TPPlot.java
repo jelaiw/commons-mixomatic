@@ -12,6 +12,8 @@ import java.util.List;
 public final class TPPlot extends AbstractPlot {
 	/**
 	 * Construct plot given bootstrap estimates of the proportions of interest.
+	 * @param estimates The bootstrap estimates for EDR, TP, and TN at various
+	 * sample sizes and thresholds.
 	 */
 	public TPPlot(List<BootstrapEstimator.Estimate> estimates) {
 		super(estimates, "TP at Various Sample Sizes and Thresholds", new AbstractPlot.ProportionHandler() {
