@@ -33,8 +33,7 @@ public final class CombinedPlot {
 			throw new NullPointerException("estimates");
 		if (estimates.size() < 1)
 			throw new IllegalArgumentException(String.valueOf(estimates.size()));
-		// Check that the user-supplied estimates were calculated 
-		// at the same threshold of significance.
+		// Check that the estimates were calculated at the same threshold for significance.
 		double threshold = Double.NaN;
 		for (Iterator<BootstrapEstimator.Estimate> it = estimates.iterator(); it.hasNext(); ) {
 			BootstrapEstimator.Estimate estimate = it.next();
@@ -46,7 +45,7 @@ public final class CombinedPlot {
 			}
 		}
 		this.chart = new JFreeChart(PlotFactory.createPlot(createDataset(estimates)));
-		chart.setTitle("TP, TN, and EDR at Fixed Threshold");
+		chart.setTitle("EDR, TP, and TN at Fixed Threshold");
 		chart.getTitle().setFont(chart.getTitle().getFont().deriveFont(24f));
 		addSubtitle("significance level = " + threshold);
 		chart.setBackgroundPaint(Color.WHITE);

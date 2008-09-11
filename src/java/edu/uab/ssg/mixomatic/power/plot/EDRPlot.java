@@ -4,9 +4,15 @@ import edu.uab.ssg.mixomatic.power.BootstrapEstimator;
 import java.util.List;
 
 /**
+ * A plot of EDR estimates at various sample sizes and thresholds 
+ * for significance.
+ *
  * @author Jelai Wang
  */
 public final class EDRPlot extends AbstractPlot {
+	/**
+	 * Construct plot given bootstrap estimates of the proportions of interest.
+	 */
 	public EDRPlot(List<BootstrapEstimator.Estimate> estimates) {
 		super(estimates, "EDR at Various Sample Sizes and Thresholds", new AbstractPlot.ProportionHandler() {
 			public double getProportionOfInterest(BootstrapEstimator.Estimate estimate) {

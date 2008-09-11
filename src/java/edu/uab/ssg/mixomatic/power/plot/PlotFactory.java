@@ -23,7 +23,7 @@ import java.awt.geom.*;
 		return plot;
 	}
 
-	/* package private */ static NumberAxis createHorizontalAxis(XYDataset dataset) {
+	private static NumberAxis createHorizontalAxis(XYDataset dataset) {
 		// Investigate newer LogAxis??
 		LogarithmicAxis axis = new LogarithmicAxis("Sample size (N per Group)");
 		axis.setTickLabelFont(axis.getTickLabelFont().deriveFont(22f));
@@ -31,7 +31,7 @@ import java.awt.geom.*;
 		return axis;
 	}
 
-	/* package private */ static NumberAxis createVerticalAxis() {
+	private static NumberAxis createVerticalAxis() {
 		NumberAxis axis = new NumberAxis("Expected Proportion");
 		axis.setRange(-0.05, 1.05); // This looks better.
 		axis.setTickUnit(new NumberTickUnit(0.2));

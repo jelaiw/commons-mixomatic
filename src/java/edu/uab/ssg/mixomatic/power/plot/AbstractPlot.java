@@ -13,12 +13,15 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * The superclass for EDRPlot, TPPlot, and TNPlot containing the shared 
+ * configuration and implementation for these closely related plots.
+ *
  * @author Jelai Wang
  */
 
 /* package private */ abstract class AbstractPlot {
 	private static final int WIDTH = 680, HEIGHT = 510;
-	protected JFreeChart chart;
+	private JFreeChart chart;
 
 	protected AbstractPlot(List<BootstrapEstimator.Estimate> estimates, String title, ProportionHandler handler) {
 		if (estimates == null)
@@ -66,7 +69,13 @@ import java.io.*;
 		out.close();
 	}
 
-	protected interface ProportionHandler {
+	/**
+	 * An interface for returning the proportion of interest from an estimate.
+	 */
+	/* package private */ interface ProportionHandler {
+		/**
+		 * Return the proportion of interest from a given estimate.
+		 */
 		double getProportionOfInterest(BootstrapEstimator.Estimate estimate);
 	}
 
