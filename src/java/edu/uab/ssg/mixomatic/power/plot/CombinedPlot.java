@@ -82,6 +82,7 @@ public final class CombinedPlot {
 		out.close();
 	}
 
+	// Three total "series", one series each for EDR, TP, and TN.
 	private XYDataset createDataset(List<BootstrapEstimator.Estimate> estimates) {
 		XYSeriesCollection collection = new XYSeriesCollection();
 		XYSeries tpSeries = new XYSeries("TP");
