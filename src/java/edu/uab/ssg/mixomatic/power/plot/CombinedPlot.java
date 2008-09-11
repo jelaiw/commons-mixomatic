@@ -12,6 +12,9 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A "combined" plot of estimates for EDR, TP, and TN at various sample
+ * sizes and a fixed threshold for significance.
+ *
  * @author Jelai Wang
  * @version 6/6/06
  */
@@ -19,6 +22,12 @@ public final class CombinedPlot {
 	private static final int WIDTH = 680, HEIGHT = 510;
 	private JFreeChart chart;
 
+	/**
+	 * Construct a combined plot.
+	 * @param estimates The estimates for EDR, TP, and TN at various
+	 * sample sizes. Must be estimated at the same threshold for
+	 * significance or an exception is thrown.
+	 */
 	public CombinedPlot(List<BootstrapEstimator.Estimate> estimates) {
 		if (estimates == null)
 			throw new NullPointerException("estimates");
@@ -63,7 +72,7 @@ public final class CombinedPlot {
 	}
 
 	/**
-	 * Write the histogram in PNG image format to an output stream.
+	 * Write the plot in PNG image format to an output stream.
 	 * @param out The output stream, typically a file output stream.
 	 */
 	public void writePNG(OutputStream out) throws IOException {

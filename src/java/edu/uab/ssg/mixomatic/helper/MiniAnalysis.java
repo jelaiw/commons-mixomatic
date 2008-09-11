@@ -6,6 +6,9 @@ import edu.uab.ssg.mixomatic.jsci.DefaultProbabilityDensityFunction;
 import edu.uab.ssg.mixomatic.plot.Histogram;
 import edu.uab.ssg.mixomatic.power.*;
 import edu.uab.ssg.mixomatic.power.plot.CombinedPlot;
+import edu.uab.ssg.mixomatic.power.plot.EDRPlot;
+import edu.uab.ssg.mixomatic.power.plot.TPPlot;
+import edu.uab.ssg.mixomatic.power.plot.TNPlot;
 import java.io.*;
 import java.util.*;
 
@@ -13,7 +16,10 @@ import java.util.*;
  * A command-line "mini"-analysis program for the mix-o-matic procedure.
  * This program takes an input file name, parses this file for p-values,
  * fits the mix-o-matic mixture model, outputs the estimates of the
- * model parameters, and plots a custom histogram. 
+ * model parameters, plots a custom histogram, estimates the proportions
+ * of interest (EDR, TP, TN) by parametric bootstrap at various, selected 
+ * sample sizes and thresholds of significance, and plots the "combined"
+ * plot at threshold = 0.05 and the individual EDR, TP, and TN plots. 
  *
  * @author Jelai Wang
  */
@@ -41,20 +47,28 @@ public final class MiniAnalysis {
 		histogram.addSubtitle("Input filename: " + inputFileName);
 		histogram.writePNG(new FileOutputStream("histogram.png"));
 
-		System.out.println("Estimating proportions of interest at various sample sizes.");
+		System.out.println("Estimating proportions of interest by bootstrap.");
 		int N1 = 5, N2 = 5; // Turn these into user-supplied arguments??
-		List<BootstrapEstimator.Estimate> estimates = estimateProportionsOfInterestAtVariousSampleSizes(estimate, N1, N2);
+		List<BootstrapEstimator.Estimate> estimates = estimateProportionsOfInterestAtVariousSampleSizesAndThresholds(estimate, N1, N2);
 
-		System.out.println("Creating combined plot of EDR, TP, and TN at various sample sizes and a fixed threshold.");
-		CombinedPlot combined = new CombinedPlot(estimates);
+		System.out.println("Creating combined plot.");
+		CombinedPlot combined = new CombinedPlot(filterByThreshold(estimates, 0.05));
 		combined.writePNG(new FileOutputStream("combined.png"));
+
+		System.out.println("Creating EDR, TP, and TN plots.");
+		EDRPlot edrPlot = new EDRPlot(estimates);
+		edrPlot.writePNG(new FileOutputStream("edr.png"));
+		TPPlot tpPlot = new TPPlot(estimates);
+		tpPlot.writePNG(new FileOutputStream("tp.png"));
+		TNPlot tnPlot = new TNPlot(estimates);
+		tnPlot.writePNG(new FileOutputStream("tn.png"));
 
 		System.out.println("Done.");
 	}
 
-	private static List<BootstrapEstimator.Estimate> estimateProportionsOfInterestAtVariousSampleSizes(MixtureModel.Estimate model, int N1, int N2) {
+	private static List<BootstrapEstimator.Estimate> estimateProportionsOfInterestAtVariousSampleSizesAndThresholds(MixtureModel.Estimate model, int N1, int N2) {
 		int[] n_ = new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 100 };
-		double[] thresholds = new double[] { 0.05 };
+		double[] thresholds = new double[] { 0.1, 0.05, 0.01, 0.001, 0.0001, 0.00001 };
 
 		List<BootstrapEstimator.Estimate> list = new ArrayList<BootstrapEstimator.Estimate>();
 		BootstrapEstimator estimator = new DefaultEstimator();
@@ -65,5 +79,15 @@ public final class MiniAnalysis {
 			}
 		}
 		return list;
+	}
+
+	private static List<BootstrapEstimator.Estimate> filterByThreshold(List<BootstrapEstimator.Estimate> estimates, double threshold) {
+		List<BootstrapEstimator.Estimate> filtered = new ArrayList<BootstrapEstimator.Estimate>();
+		for (Iterator<BootstrapEstimator.Estimate> it = estimates.iterator(); it.hasNext(); ) {
+			BootstrapEstimator.Estimate estimate = it.next();
+			if (estimate.getSignificanceLevel() == threshold)
+				filtered.add(estimate);
+		}
+		return filtered;
 	}
 }
