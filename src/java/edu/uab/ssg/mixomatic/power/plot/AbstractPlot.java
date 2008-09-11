@@ -37,13 +37,14 @@ import java.io.*;
 		chart.setTitle(title);
 		chart.getTitle().setFont(chart.getTitle().getFont().deriveFont(24f));
 		chart.setBackgroundPaint(java.awt.Color.WHITE);
+		double shapeSize = 10.;
+		// Five color, six shape rotation. 
 		chart.getPlot().setDrawingSupplier(new DefaultDrawingSupplier(
-//			new Color[] { Color.RED, ChartColor.DARK_GREEN, Color.BLUE, Color.BLACK, ChartColor.DARK_YELLOW, ChartColor.DARK_CYAN },
-			new Color[] { Color.RED, Color.BLUE, Color.BLACK, ChartColor.DARK_CYAN },
+			new Color[] { Color.RED, ChartColor.DARK_GREEN, Color.BLUE, Color.BLACK, ChartColor.DARK_YELLOW },
 			DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
 			DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
 			DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
-			new Shape[] { PlotFactory.getSquare(10.), PlotFactory.getCircle(10.), PlotFactory.getTriangle(10.), PlotFactory.getDiamond(10.), PlotFactory.getUpsideDownTriangle(10.), ShapeUtilities.createDiagonalCross(4, 1) }
+			new Shape[] { PlotFactory.getSquare(shapeSize), PlotFactory.getCircle(shapeSize), PlotFactory.getTriangle(shapeSize), PlotFactory.getDiamond(shapeSize), PlotFactory.getUpsideDownTriangle(shapeSize), ShapeUtilities.createDiagonalCross(4, 1) }
 		));
 	}
 
