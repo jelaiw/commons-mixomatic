@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<project name="mixomatic" basedir=".">
+<project basedir=".">
 	<property name="build.dir" location="build"/>
 	<property name="src.dir" location="src/java"/>
 	<property name="vendor.lib.dir" location="vendor/lib"/>
-	<property name="resources.dir" location="resources"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
 	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
 
@@ -33,6 +32,7 @@
 	<target name="compile" depends="-prepare-compile" description="Compile the source code.">
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="compile.classpath" debug="true">
 			<compilerarg value="-Xlint:unchecked"/>	
+			<compilerarg value="-Xlint:deprecation"/>	
 		</javac>	
 	</target>
 	
