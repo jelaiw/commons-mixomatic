@@ -3,10 +3,15 @@ package edu.uab.ssg.mixomatic.power;
 import edu.uab.ssg.mixomatic.MixtureModel;
 
 /**
- * This class implements the parametric bootstrap procedure, described in
- * the paper at <a href="http://dx.doi.org/10.1191/0962280204sm369ra">http://dx.doi.org/10.1191/0962280204sm369ra</a>, for obtaining
- * estimates of the expected discovery rate (EDR), the proportion of true 
- * positives (TP), and the proportion of true negatives (TN).
+ * This class implements a parametric bootstrap procedure for estimating
+ * the expected discovery rate (EDR), the proportion of true positives (TP), 
+ * and the proportion of true negatives (TN) in a high dimensional biology
+ * experiment.
+ *
+ * <p>Gadbury GL, Page GP, Edwards J, Kayo T, Weindruch R, Permana PA,
+ * Mountz J, Allison DB. Power and Sample Size Estimation in High Dimensional 
+ * Biology. <i>Stat Meth Med Res</i> 2004, 13:325-338.</p>
+ * <p>DOI: <a href="http://dx.doi.org/10.1191/0962280204sm369ra">10.1191/0962280204sm369ra</a> (<a href="http://smm.sagepub.com/cgi/content/short/13/4/325">Alternative link</a>).</p>
  *
  * @author Jelai Wang
  */

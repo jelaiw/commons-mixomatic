@@ -5,8 +5,12 @@ import edu.uab.ssg.mixomatic.MixtureModel;
 /**
  * This interface defines an abstraction for a bootstrap estimator of
  * the proportions of interest, true positive (TP), true negative (TN), 
- * and expected discovery rate (EDR), described in the paper at 
- * http://dx.doi.org/10.1191/0962280204sm369ra.
+ * and expected discovery rate (EDR), described in the paper.
+ *
+ * <p>Gadbury GL, Page GP, Edwards J, Kayo T, Weindruch R, Permana PA,
+ * Mountz J, Allison DB. Power and Sample Size Estimation in High Dimensional 
+ * Biology. <i>Stat Meth Med Res</i> 2004, 13:325-338.</p>
+ * <p>DOI: <a href="http://dx.doi.org/10.1191/0962280204sm369ra">10.1191/0962280204sm369ra</a> (<a href="http://smm.sagepub.com/cgi/content/short/13/4/325">Alternative link</a>).</p>
  *
  * @author Jelai Wang
  */
