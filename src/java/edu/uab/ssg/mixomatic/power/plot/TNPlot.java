@@ -4,8 +4,12 @@ import edu.uab.ssg.mixomatic.power.BootstrapEstimator;
 import java.util.List;
 
 /**
+ * <p>
  * A plot of TN estimates at various sample sizes and thresholds 
  * for significance.
+ * </p>
+ *
+ * <img alt="Example of a TN plot." src="doc-files/TNPlot-1.png"/>
  *
  * @author Jelai Wang
  */

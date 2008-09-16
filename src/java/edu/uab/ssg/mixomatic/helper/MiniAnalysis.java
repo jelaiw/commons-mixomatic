@@ -51,7 +51,6 @@ public final class MiniAnalysis {
 		System.out.println("Creating histogram.");
 		ProbabilityDensityFunction function = new DefaultProbabilityDensityFunction();
 		Histogram histogram = new Histogram(pvalues);
-		histogram.addSubtitle("Input filename: " + inputFileName);
 		histogram.writePNG(new FileOutputStream("histogram.png"));
 
 		System.out.println("Estimating proportions of interest by bootstrap.");

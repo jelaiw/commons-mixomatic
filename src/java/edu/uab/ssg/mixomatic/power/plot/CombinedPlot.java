@@ -12,8 +12,12 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * <p>
  * A "combined" plot of estimates for EDR, TP, and TN at various sample
  * sizes and a fixed threshold for significance.
+ * </p>
+ *
+ * <img alt="Example of a combined plot." src="doc-files/CombinedPlot-1.png"/>
  *
  * @author Jelai Wang
  * @version 6/6/06

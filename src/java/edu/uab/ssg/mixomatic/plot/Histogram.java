@@ -14,9 +14,13 @@ import java.awt.*;
 import java.io.*;
 
 /**
+ * <p>
  * Histogram of a p-value distribution with overlaid curves for
  * the mix-o-matic density function (fitted to the p-values) and the 
  * uniform density function (expected under the null hypothesis).
+ * </p>
+ *
+ * <img alt="Example of histogram." src="doc-files/Histogram-1.png"/>
  *
  * @author Jelai Wang
  * @version 1/25/05

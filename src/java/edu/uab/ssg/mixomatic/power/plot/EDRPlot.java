@@ -4,8 +4,12 @@ import edu.uab.ssg.mixomatic.power.BootstrapEstimator;
 import java.util.List;
 
 /**
+ * <p>
  * A plot of EDR estimates at various sample sizes and thresholds 
  * for significance.
+ * </p>
+ *
+ * <img alt="Example of an EDR plot." src="doc-files/EDRPlot-1.png"/>
  *
  * @author Jelai Wang
  */

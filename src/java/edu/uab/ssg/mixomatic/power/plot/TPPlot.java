@@ -4,8 +4,12 @@ import edu.uab.ssg.mixomatic.power.BootstrapEstimator;
 import java.util.List;
 
 /**
+ * <p>
  * A plot of TP estimates at various sample sizes and thresholds 
  * for significance.
+ * </p>
+ *
+ * <img alt="Example of a TP plot." src="doc-files/TPPlot-1.png"/>
  *
  * @author Jelai Wang
  */
