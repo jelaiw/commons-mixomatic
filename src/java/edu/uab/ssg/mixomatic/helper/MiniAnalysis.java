@@ -45,8 +45,8 @@ public final class MiniAnalysis {
 
 		System.out.println("Estimating mixture model.");
 		MixtureModel.Estimator estimator = new BoundedOptimizer();
-		MixtureModel.Estimate estimate = estimator.estimateParameters(pvalues);
-		System.out.println(estimate);
+		MixtureModel.Estimate model = estimator.estimateParameters(pvalues);
+		System.out.println(model);
 
 		System.out.println("Creating histogram.");
 		ProbabilityDensityFunction function = new DefaultProbabilityDensityFunction();
@@ -55,7 +55,7 @@ public final class MiniAnalysis {
 
 		System.out.println("Estimating proportions of interest by bootstrap.");
 		// Estimate EDR, TP, and TN at threshold = 0.05.
-		List<BootstrapEstimator.Estimate> estimates = estimateProportionsOfInterestAtVariousSampleSizes(estimate, N1, N2, 0.05);
+		List<BootstrapEstimator.Estimate> estimates = estimateProportionsOfInterestAtVariousSampleSizes(model, N1, N2, 0.05);
 
 		System.out.println("Creating combined plot.");
 		CombinedPlot combined = new CombinedPlot(estimates);
@@ -64,8 +64,8 @@ public final class MiniAnalysis {
 		System.out.println("More estimation of proportions of interest.");
 		// Estimate EDR, TP, and TN at other selected thresholds.
 		// These are the same three thresholds selected in the paper, pg 335.
-		estimates.addAll(estimateProportionsOfInterestAtVariousSampleSizes(estimate, N1, N2, 0.001));
-		estimates.addAll(estimateProportionsOfInterestAtVariousSampleSizes(estimate, N1, N2, 0.00001));
+		estimates.addAll(estimateProportionsOfInterestAtVariousSampleSizes(model, N1, N2, 0.001));
+		estimates.addAll(estimateProportionsOfInterestAtVariousSampleSizes(model, N1, N2, 0.00001));
 
 		System.out.println("Creating EDR, TP, and TN plots.");
 		EDRPlot edrPlot = new EDRPlot(estimates);
