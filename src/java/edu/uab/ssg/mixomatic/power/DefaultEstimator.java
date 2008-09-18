@@ -60,9 +60,10 @@ public final class DefaultEstimator implements BootstrapEstimator {
 		for (int i = 0; i < numberOfIterations; i++) {
 			int[] counts = bootstrap(model, n, n_, significanceLevel);
 			int A = counts[0], B = counts[1], C = counts[2], D = counts[3];
-			tp[i] = ((double) D) / (C + D);
-			tn[i] = ((double) A) / (A + B);
-			edr[i] = ((double) D) / (B + D);
+			// "Each proportion is defined as 0 if its denominator is 0."
+			tp[i] = (C + D == 0) ? 0. : ((double) D) / (C + D);
+			tn[i] = (A + B == 0) ? 0. : ((double) A) / (A + B);
+			edr[i] = (B + D == 0) ? 0. : ((double) D) / (B + D);
 		}
 		return new DefaultEstimate(configuration, model, n, n_, significanceLevel, tp, tn, edr);
 	}
