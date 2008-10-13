@@ -5,20 +5,18 @@ import edu.uab.ssg.mixomatic.helper.*;
 import flanagan.math.*;
 
 /**
- * This class implements a maximum likelihood estimator of the mixture 
- * model parameters using mathematical optimization.
+ * A maximum likelihood estimator of the mix-o-matic mixture model 
+ * parameters using mathematical optimization.
  *
  * Specifically, this implementation is based on the constrained
  * Nelder-Mead Maximisation class in the Flanagan Java Scientific
- * Library at http://www.ee.ucl.ac.uk/~mflanaga/java/.
+ * Library at <a href="http://www.ee.ucl.ac.uk/~mflanaga/java/">http://www.ee.ucl.ac.uk/~mflanaga/java/</a>.
  *
  * @author Jelai Wang
- * @version 7/8/08
  */
-
 public final class BoundedOptimizer implements MixtureModel.Estimator {
 	/**
-	 * This is the default configuration, with bounds specified by 
+	 * The default configuration, with bounds specified by 
 	 * <tt>0 &lt; &lambda;<sub>0</sub> &lt; 1</tt>,
 	 * <tt>r &gt; 0</tt>,
 	 * <tt>s &gt; 0</tt>,
@@ -27,7 +25,7 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	public static final OptimizerConfiguration DEFAULT = new DefaultConfiguration();
 
 	/**
-	 * This is a "restricted" configuration, with bounds specified by 
+	 * A "restricted" configuration, with bounds specified by 
 	 * <tt>0 &lt; &lambda;<sub>0</sub> &lt; 1</tt>,
 	 * <tt>0 &lt; r &lt; 1</tt>,
 	 * <tt>s &gt; 1</tt>,
@@ -42,14 +40,14 @@ public final class BoundedOptimizer implements MixtureModel.Estimator {
 	private OptimizerConfiguration configuration;
 
 	/**
-	 * Constructs a mix-o-matic optimizer using the default configuration.
+	 * Constructs an optimizer using the default configuration.
 	 */
 	public BoundedOptimizer() {
 		this.configuration = DEFAULT;
 	}
 
 	/**
-	 * Constructs a mix-o-matic optimizer using a user-supplied configuration.
+	 * Constructs an optimizer using a user-supplied configuration.
 	 */
 	public BoundedOptimizer(OptimizerConfiguration configuration) {
 		if (configuration == null)

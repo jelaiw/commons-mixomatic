@@ -1,18 +1,16 @@
 package edu.uab.ssg.mixomatic;
 
 /**
- * Implementations of this interface represent mix-o-matic mixture
- * models, each defined by parameters lambda0, r, and s.
+ * A mix-o-matic mixture model.
  *
- * Each implementation should model a distribution of p-values as a mixture 
+ * Implementations should model a distribution of p-values as a mixture 
  * of one uniform distribution (specified by lambda0) and one beta 
  * distribution (specified by beta distribution parameters r and s). 
- * More details are available in the paper at 
- * http://dx.doi.org/10.1016/S0167-9473(01)00046-9.
+ *
+ * More details are available in the paper at <a href="http://dx.doi.org/10.1016/S0167-9473(01)00046-9">http://dx.doi.org/10.1016/S0167-9473(01)00046-9</a>.
  *
  * @author Jelai Wang
  */
-
 public interface MixtureModel {
 	/**
 	 * Returns lambda0, the area "under the curve" for the uniform component
@@ -21,7 +19,6 @@ public interface MixtureModel {
 	 * @return A value between zero and one representing the proportion 
 	 * of the total area in the uniform component.
 	 */
-
 	double getLambda0();
 
 	/**
@@ -30,7 +27,6 @@ public interface MixtureModel {
 	 *
 	 * @return A positive number representing the first beta parameter.
 	 */
-
 	double getR();
 
 	/**
@@ -39,38 +35,33 @@ public interface MixtureModel {
 	 *
 	 * @return A positive number representing the second beta parameter.
 	 */
-
 	double getS();
 
 	/**
-	 * Implementations of this interface represent mixture models
-	 * estimated from sample data using the mix-o-matic procedure.
+	 * A mixture model estimated from sample data using the 
+	 * mix-o-matic procedure.
 	 */
-
 	interface Estimate extends MixtureModel {
 
 		/**
 		 * Returns the sample distribution of p-values used by the 
 		 * mix-o-matic procedure to estimate the lambda0, r, and s 
 		 * parameters of the mixture model.
-		 *
-		 * @return The sample distribution of p-values.
 		 */
-
 		double[] getSample();
 	}
 
 	/**
-	 * Implementations of this interface represent mix-o-matic estimators,
-	 * that is, given a sample distribution of p-values, an estimator
+	 * A mix-o-matic mixture model estimator.
+	 *
+	 * Given a sample distribution of p-values, an estimator
 	 * will apply the mix-o-matic procedure and return estimates of 
 	 * the mixture model parameters lambda0, r, and s.
 	 */
-
 	interface Estimator {
 
 		/**
-		 * Estimate the parameters of the mixture model by applying the
+		 * Estimates the parameters of the mixture model by applying the
 		 * mix-o-matic procedure to the sample distribution of p-values.
 		 *
 		 * @param sample The sample distribution of p-values as a double
@@ -78,7 +69,6 @@ public interface MixtureModel {
 		 * zero and one.
 		 * @return The estimated mixture model.
 		 */
-
 		Estimate estimateParameters(double[] sample) throws MixomaticException;
 	}
 }

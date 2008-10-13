@@ -7,20 +7,22 @@ import com.imsl.math.MinConNLP;
 import com.imsl.IMSLException;
 
 /**
- * This class implements a maximum likelihood estimator of the mixture 
- * model parameters using mathematical optimization.
+ * Another maximum likelihood estimator of the mix-o-matic mixture model 
+ * using mathematical optimization.
  *
  * Like the BoundedOptimizer class, this implementation is based on 
  * the MinConNLP class available in the JMSL library at 
  * http://www.vni.com. However, it uses both constraint functions 
  * and lower and upper bounds to define the set of feasible points 
- * during optimization.
+ * for optimization. Despite effort devoted to tuning and tweaking, this
+ * implementation does not perform as well as the BoundedOptimizer.
  *
  * @author Jelai Wang
- * @version 6/26/08
  */
-
 public final class ConstrainedOptimizer implements MixtureModel.Estimator {
+	/**
+	 * Constructs the optimizer.
+	 */
 	public ConstrainedOptimizer() {
 	}
 

@@ -12,10 +12,11 @@ package edu.uab.ssg.mixomatic;
  * surface is "flat".
  *
  * @author Jelai Wang
- * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/7/05
  */
-
 public class MixomaticException extends Exception {
+	/**
+	 * The sample distribution of p-values.
+	 */
 	protected double[] sample;
 
 	/**
@@ -29,7 +30,6 @@ public class MixomaticException extends Exception {
 	 * @param sample The sample distribution of p-values used to estimate
 	 * the mixture model parameters.
 	 */
-
 	public MixomaticException(Throwable cause, double[] sample) {
 		super(cause);
 		if (sample == null)
@@ -39,8 +39,6 @@ public class MixomaticException extends Exception {
 
 	/**
 	 * Returns the sample distribution of p-values.
-	 * @return The sample distribution of p-values.
 	 */
-
 	public double[] getSample() { return (double[]) sample.clone(); }
 }

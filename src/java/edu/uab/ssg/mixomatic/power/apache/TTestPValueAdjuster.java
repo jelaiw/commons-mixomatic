@@ -13,6 +13,12 @@ import org.apache.commons.math.MathException;
 public final class TTestPValueAdjuster implements BootstrapEstimator.PValueAdjuster {
 	private TDistribution dist = new TDistributionImpl(Double.NaN);
 
+	/**
+	 * Constructs the adjuster.
+	 */
+	public TTestPValueAdjuster() {
+	}
+
 	public double adjustPValue(double pvalue, double n, int n_) {
 		// Figure out the test statistic, t, corresponding to this p-value.
 		// In other words, "back transform" the p-value to the t-statistic.

@@ -12,22 +12,20 @@ import java.util.*;
 import java.io.*;
 
 /**
- * <p>
- * A "combined" plot of estimates for EDR, TP, and TN at various sample
- * sizes and a fixed threshold for significance.
- * </p>
+ * <p>A "combined" plot of estimates for EDR, TP, and TN at various sample
+ * sizes and a fixed threshold for significance.</p>
  *
  * <img alt="Example of a combined plot." src="doc-files/CombinedPlot-1.png"/>
  *
  * @author Jelai Wang
- * @version 6/6/06
  */
 public final class CombinedPlot {
 	private static final int WIDTH = 680, HEIGHT = 510;
 	private JFreeChart chart;
 
 	/**
-	 * Construct plot given bootstrap estimates of the proportions of interest.
+	 * Constructs a plot given bootstrap estimates of the proportions of 
+	 * interest.
 	 * @param estimates The bootstrap estimates for EDR, TP, and TN at various
 	 * sample sizes. Must be estimated at the same threshold for
 	 * significance or an exception is thrown.
@@ -64,7 +62,7 @@ public final class CombinedPlot {
 	}
 
 	/**
-	 * Add a subtitle.
+	 * Adds a subtitle.
 	 */
 	public void addSubtitle(String subtitle) {
 		if (subtitle == null)
@@ -75,7 +73,7 @@ public final class CombinedPlot {
 	}
 
 	/**
-	 * Write the plot in PNG image format to an output stream.
+	 * Writes the plot in PNG image format to an output stream.
 	 * @param out The output stream, typically a file output stream.
 	 */
 	public void writePNG(OutputStream out) throws IOException {

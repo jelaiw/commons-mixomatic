@@ -15,18 +15,21 @@ import java.util.*;
 /**
  * A command-line "mini"-analysis program for the mix-o-matic procedure.
  *
- * This program takes an input file name, parses the named file for p-values,
- * fits the mix-o-matic mixture model to the p-values, outputs the estimates 
- * of the model parameters, plots a custom histogram, estimates the proportions
- * of interest (EDR, TP, TN) by parametric bootstrap at various, selected 
- * sample sizes and thresholds for significance, and plots the "combined"
- * plot at threshold = 0.05 and the individual EDR, TP, and TN plots at
- * the same thresholds (0.05, 0.001, 0.00001) selected in the paper. 
- *
  * @author Jelai Wang
  */
-
 public final class MiniAnalysis {
+	private MiniAnalysis() {
+	}
+
+	/**
+	 * Takes an input file name, parses the named file for p-values, fits the 
+	 * mix-o-matic mixture model to the p-values, outputs the estimates of the 
+	 * model parameters, plots a custom histogram, estimates the proportions
+	 * of interest (EDR, TP, TN) by parametric bootstrap at various, selected 
+	 * sample sizes and thresholds for significance, and plots the "combined"
+	 * plot at threshold = 0.05 and the individual EDR, TP, and TN plots at
+	 * the same thresholds (0.05, 0.001, 0.00001) selected in the paper. 
+	 */
 	public static void main(String[] args) throws IOException, MixomaticException {
 		// Parse input file.
 		String inputFileName = args[0];

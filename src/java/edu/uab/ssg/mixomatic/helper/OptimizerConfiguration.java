@@ -1,9 +1,9 @@
 package edu.uab.ssg.mixomatic.helper;
 
 /**
- * This helper interface is intended to assist implementors of the
- * MixtureModel.Estimator interface whose implementation is based
- * on mathematical optimization.
+ * An optimization configuration is intended to assist implementors 
+ * of the MixtureModel.Estimator interface whose implementation is 
+ * based on mathematical optimization.
  *
  * It allows those implementors to abstract configuration details 
  * that are common across different implementations, encouraging
@@ -16,20 +16,19 @@ package edu.uab.ssg.mixomatic.helper;
  *
  * @author Jelai Wang
  */
-
 public interface OptimizerConfiguration {
 	/**
-	 * Return the lower bounds of &lambda;<sub>0</sub>, r, and s.
+	 * Returns the lower bounds of &lambda;<sub>0</sub>, r, and s.
 	 */
 	LowerBounds getLowerBounds();
 
 	/**
-	 * Return the upper bounds of &lambda;<sub>0</sub>, r, and s.
+	 * Returns the upper bounds of &lambda;<sub>0</sub>, r, and s.
 	 */
 	UpperBounds getUpperBounds();
 
 	/**
-	 * Find and return a "reasonable" starting point for the optimizer.
+	 * Finds a "reasonable" starting point for the optimizer.
 	 * This is typically implemented as a grid search, method of
 	 * moments estimate, or pre-specified points (ignoring the
 	 * sample distribution of p-values).
@@ -39,63 +38,63 @@ public interface OptimizerConfiguration {
 	StartingPoint findStartingPoint(double[] sample);
 
 	/**
-	 * This interface represents the lower bounds that the mixture model
-	 * parameter estimates are allowed to take.
+	 * The lower bounds that the mixture model parameter estimates 
+	 * are allowed to take.
 	 */
 	public interface LowerBounds {
 		/**
-		 * Return the lower bound of &lambda;<sub>0</sub>.
+		 * Returns the lower bound of &lambda;<sub>0</sub>.
 		 */
 		double getLambda0();
 
 		/**
-		 * Return the lower bound of r.
+		 * Returns the lower bound of r.
 		 */
 		double getR();
 
 		/**
-		 * Return the lower bound of s.
+		 * Returns the lower bound of s.
 		 */
 		double getS();
 	}
 
 	/**
-	 * This interface represents the upper bounds that the mixture model
-	 * parameter estimates are allowed to take.
+	 * The upper bounds that the mixture model parameter estimates are 
+	 * allowed to take.
 	 */
 	public interface UpperBounds {
 		/**
-		 * Return the upper bound of &lambda;<sub>0</sub>.
+		 * Returns the upper bound of &lambda;<sub>0</sub>.
 		 */
 		double getLambda0();
 
 		/**
-		 * Return the upper bound of r.
+		 * Returns the upper bound of r.
 		 */
 		double getR();
 
 		/**
-		 * Return the upper bound of s.
+		 * Returns the upper bound of s.
 		 */
 		double getS();
 	}
 
 	/**
-	 * This interface represents the starting point of the optimizer.
+	 * The starting point of the optimizer.
 	 */
 	public interface StartingPoint {
 		/**
-		 * Return the starting value of &lambda;<sub>0</sub>.
+		 * Returns the starting value of &lambda;<sub>0</sub>.
 		 */
 		double getLambda0();
 
 		/**
-		 * Return the starting value of r.
+		 * Returns the starting value of r.
 		 */
 		double getR();
 
 		/**
-		 * Return the starting value of s.
+		 * Returns the starting value of s.
 		 */
 		double getS();
 	}

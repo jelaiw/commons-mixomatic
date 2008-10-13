@@ -4,14 +4,13 @@ import edu.uab.ssg.mixomatic.*;
 import java.util.*;
 
 /**
- * This is a helper implementation for an optimizer configuration
- * that allows the implementor to subclass to provide the lower
- * bounds, upper bounds, and grid search space for a simple
- * grid search.
+ * A helper for optimizer configuration that allows the implementor 
+ * to subclass to provide the set of feasible points for mathematical
+ * optimization as lower and upper bounds and the grid search space 
+ * for a simple grid search to find a starting point.
  *
  * @author Jelai Wang
  */
-
 public abstract class AbstractConfiguration {
 	protected double[] lowerBounds, upperBounds;
 	protected double[] lambda0, r, s;

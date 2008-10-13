@@ -13,7 +13,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * The superclass for EDRPlot, TPPlot, and TNPlot containing the shared 
+ * A superclass for EDRPlot, TPPlot, and TNPlot containing the shared 
  * configuration and implementation for these closely related plots.
  *
  * @author Jelai Wang
@@ -49,7 +49,7 @@ import java.io.*;
 	}
 
 	/**
-	 * Add a subtitle.
+	 * Adds a subtitle.
 	 */
 	public void addSubtitle(String subtitle) {
 		if (subtitle == null)
@@ -60,7 +60,7 @@ import java.io.*;
 	}
 
 	/**
-	 * Write the plot in PNG image format to an output stream.
+	 * Writes the plot in PNG image format to an output stream.
 	 * @param out The output stream, typically a file output stream.
 	 */
 	public void writePNG(OutputStream out) throws IOException {
@@ -75,7 +75,7 @@ import java.io.*;
 	 */
 	/* package private */ interface ProportionHandler {
 		/**
-		 * Return the proportion of interest from a given estimate.
+		 * Returns the proportion of interest from a given estimate.
 		 */
 		double getProportionOfInterest(BootstrapEstimator.Estimate estimate);
 	}

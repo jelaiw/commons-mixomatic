@@ -5,15 +5,15 @@ import edu.uab.ssg.mixomatic.MixtureModel;
 import JSci.maths.statistics.BetaDistribution;
 
 /**
- * This class implements the mix-o-matic probability density function
- * using the BetaDistribution class available in the JSci library at
- * http://jsci.sourceforge.net/.
+ * A mix-o-matic probability density function that uses the BetaDistribution 
+ * class available in the JSci library at <a href="http://jsci.sourceforge.net">http://jsci.sourceforge.net</a>.
  *
  * @author Jelai Wang
- * @version $Rev$ $LastChangedDate$ $LastChangedBy$ 1/6/05
  */
-
 public final class DefaultProbabilityDensityFunction implements ProbabilityDensityFunction {
+	/**
+	 * Constructs the function.
+	 */
 	public DefaultProbabilityDensityFunction() {
 	}
 

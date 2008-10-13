@@ -8,19 +8,23 @@ import cern.jet.random.engine.MersenneTwister;
 import java.util.Date;
 
 /**
- * An adapter for the random number generator com.imsl.stat.Random in the JMSL.
+ * An adapter for the random number generator(s) in the Colt cern.jet.random
+ * package.
  *
  * @author Jelai Wang
  */
-
 public final class RandomAdapter implements BootstrapEstimator.RandomNumberGenerator {
 	private Binomial binomial;
 	private Uniform uniform;
 	private Beta beta;
 
-	// Note that we construct the binomial and beta instances with arbitrary
-	// values that are bypassed in the calls to nextBinomial() and nextBeta().
+	/**
+	 * Constructs the adapter.
+	 */
 	public RandomAdapter() {
+		// Note that we construct the binomial and beta instances with 
+		// unimportant, arbitrary values that are bypassed in the calls 
+		// to nextBinomial() and nextBeta().
 		this.binomial = new Binomial(1, 0.5, new MersenneTwister(new Date()));
 		this.uniform = new Uniform(new MersenneTwister(new Date()));
 		this.beta = new Beta(0.5, 0.5, new MersenneTwister(new Date()));

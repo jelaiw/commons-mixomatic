@@ -3,7 +3,7 @@ package edu.uab.ssg.mixomatic.power;
 import edu.uab.ssg.mixomatic.MixtureModel;
 
 /**
- * This class implements a parametric bootstrap procedure for estimating
+ * An implementation of the parametric bootstrap procedure for estimating
  * the expected discovery rate (EDR), the proportion of true positives (TP), 
  * and the proportion of true negatives (TN) in a high dimensional biology
  * experiment.
@@ -11,16 +11,15 @@ import edu.uab.ssg.mixomatic.MixtureModel;
  * <p>Gadbury GL, Page GP, Edwards J, Kayo T, Weindruch R, Permana PA,
  * Mountz J, Allison DB. Power and Sample Size Estimation in High Dimensional 
  * Biology. <i>Stat Meth Med Res</i> 2004, 13:325-338.</p>
- * <p>DOI: <a href="http://dx.doi.org/10.1191/0962280204sm369ra">10.1191/0962280204sm369ra</a> (<a href="http://smm.sagepub.com/cgi/content/short/13/4/325">Alternative link</a>).</p>
+ * <p>DOI: <a href="http://dx.doi.org/10.1191/0962280204sm369ra">10.1191/0962280204sm369ra</a></p> 
  *
  * @author Jelai Wang
  */
-
 public final class DefaultEstimator implements BootstrapEstimator {
 	BootstrapEstimator.Configuration configuration;
 
 	/**
-	 * Construct an estimator with M = 100 and default choices for p-value 
+	 * Constructs an estimator with M = 100 and default choices for p-value 
 	 * adjuster and random number generator implementations.
 	 */
 	public DefaultEstimator() {
@@ -28,7 +27,7 @@ public final class DefaultEstimator implements BootstrapEstimator {
 	}
 
 	/**
-	 * Construct an estimator with a custom configuration.
+	 * Constructs an estimator with a custom configuration.
 	 * @param numberOfIterations The number of bootstrap iterations.
 	 * Called M in the paper.
 	 */

@@ -4,10 +4,8 @@ import edu.uab.ssg.mixomatic.power.BootstrapEstimator;
 import java.util.List;
 
 /**
- * <p>
- * A plot of TP estimates at various sample sizes and thresholds 
- * for significance.
- * </p>
+ * <p>A plot of TP estimates at various sample sizes and thresholds 
+ * for significance.</p>
  *
  * <img alt="Example of a TP plot." src="doc-files/TPPlot-1.png"/>
  *
@@ -15,7 +13,8 @@ import java.util.List;
  */
 public final class TPPlot extends AbstractPlot {
 	/**
-	 * Construct plot given bootstrap estimates of the proportions of interest.
+	 * Constructs a plot given bootstrap estimates of the proportions of
+	 * interest.
 	 * @param estimates The bootstrap estimates for EDR, TP, and TN at various
 	 * sample sizes and thresholds.
 	 */

@@ -14,18 +14,14 @@ import java.awt.*;
 import java.io.*;
 
 /**
- * <p>
- * Histogram of a p-value distribution with overlaid curves for
+ * <p> Histogram of a p-value distribution with overlaid curves for
  * the mix-o-matic density function (fitted to the p-values) and the 
- * uniform density function (expected under the null hypothesis).
- * </p>
+ * uniform density function (expected under the null hypothesis).</p>
  *
  * <img alt="Example of histogram." src="doc-files/Histogram-1.png"/>
  *
  * @author Jelai Wang
- * @version 1/25/05
  */
-
 public final class Histogram {
 	private static final int NUMBER_OF_BINS = 20;
 	private static final int WIDTH = 680, HEIGHT = 510;
@@ -34,9 +30,9 @@ public final class Histogram {
 	private JFreeChart chart;
 
 	/**
-	 * Construct the histogram.
+	 * Constructs the histogram.
 	 * @param pvalues The distribution of p-values.
-	 * @throws MixomaticException if the mix-o-matic procedure cannot fit
+	 * @throws MixomaticException If the mix-o-matic procedure cannot fit
 	 * a mixture model to the p-value distribution.
 	 */
 	public Histogram(double[] pvalues) throws MixomaticException {
@@ -59,7 +55,7 @@ public final class Histogram {
 	}
 
 	/**
-	 * Add a subtitle.
+	 * Adds a subtitle.
 	 */
 	public void addSubtitle(String subtitle) {
 		if (subtitle == null)
@@ -70,7 +66,7 @@ public final class Histogram {
 	}
 
 	/**
-	 * Write the histogram in PNG image format to an output stream.
+	 * Writes the histogram in PNG image format to an output stream.
 	 * @param out The output stream, typically a file output stream.
 	 */
 	public void writePNG(OutputStream out) throws IOException {
@@ -81,7 +77,7 @@ public final class Histogram {
 	}
 
 	/**
-	 * Return the p-value distribution.
+	 * Returns the p-value distribution.
 	 */
 	public double[] getPValues() { return (double[]) pvalues.clone(); }
 

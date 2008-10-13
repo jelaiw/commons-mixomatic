@@ -8,10 +8,12 @@ import com.imsl.stat.Random;
  *
  * @author Jelai Wang
  */
-
 public final class RandomAdapter implements BootstrapEstimator.RandomNumberGenerator {
 	private Random random;
 
+	/**
+	 * Constructs the adapter.
+	 */
 	public RandomAdapter() {
 		this.random = new Random();
 	}

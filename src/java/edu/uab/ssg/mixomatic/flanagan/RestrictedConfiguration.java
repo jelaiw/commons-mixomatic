@@ -8,7 +8,6 @@ import java.util.*;
 
 /**
  *	@author Jelai Wang
- *	@version $Rev: 69 $ $LastChangedDate: 2008-07-17 14:23:29 -0500 (Thu, 17 Jul 2008) $ $LastChangedBy: jelai $ 4/5/06
  */
 
 /* package private */ final class RestrictedConfiguration extends AbstractConfiguration implements OptimizerConfiguration {

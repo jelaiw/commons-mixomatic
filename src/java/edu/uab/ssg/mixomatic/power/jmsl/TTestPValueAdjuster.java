@@ -9,6 +9,12 @@ import com.imsl.stat.Cdf;
  * @author Jelai Wang
  */
 public final class TTestPValueAdjuster implements BootstrapEstimator.PValueAdjuster {
+	/**
+	 * Constructs the adjuster.
+	 */
+	public TTestPValueAdjuster() {
+	}
+
 	public double adjustPValue(double pvalue, double n, int n_) {
 		// Figure out the test statistic, t, corresponding to this p-value.
 		// In other words, "back transform" the p-value to the t-statistic.

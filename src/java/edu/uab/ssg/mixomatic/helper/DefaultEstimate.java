@@ -3,16 +3,22 @@ package edu.uab.ssg.mixomatic.helper;
 import edu.uab.ssg.mixomatic.MixtureModel;
 
 /**
- * This helper class represents a mixture model estimate and is intended
- * for re-use by mixture model estimator implementations.
+ * A mixture model estimate implementation intended for re-use by mixture 
+ * model estimator implementations.
  *
  * @author Jelai Wang
  */
-
 public final class DefaultEstimate implements MixtureModel.Estimate {
 	private double lambda0, r, s;
 	private double[] sample;
 
+	/**
+	 * Constructs a mixture model estimate.
+	 * @param lambda0 The estimate for lambda0.
+	 * @param r The estimate for r.
+	 * @param s The estimate for s.
+	 * @param sample The sample distribution of p-values.
+	 */
 	public DefaultEstimate(double lambda0, double r, double s, double[] sample) {
 		if (lambda0 < 0. || lambda0 > 1.)
 			throw new IllegalArgumentException(String.valueOf(lambda0));
@@ -20,6 +26,8 @@ public final class DefaultEstimate implements MixtureModel.Estimate {
 			throw new IllegalArgumentException(String.valueOf(r));
 		if (s < 0.)
 			throw new IllegalArgumentException(String.valueOf(s));
+		if (sample == null)
+			throw new NullPointerException("sample");
 		this.lambda0 = lambda0;
 		this.r = r;
 		this.s = s;
@@ -31,6 +39,9 @@ public final class DefaultEstimate implements MixtureModel.Estimate {
 	public double getS() { return s; }
 	public double[] getSample() { return (double[]) sample.clone(); }
 
+	/**
+	 * Returns a string representation of this mixture model estimate.
+	 */
 	public String toString() {
 		String EOL = System.getProperty("line.separator");
 		StringBuffer buffer = new StringBuffer();

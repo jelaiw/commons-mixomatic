@@ -3,9 +3,9 @@ package edu.uab.ssg.mixomatic.helper;
 import edu.uab.ssg.mixomatic.MixtureModel;
 
 /**
- * This helper class implements the mix-o-matic mixture model, but does 
- * not check the model parameters for validity, and is not appropriate 
- * for general purpose use. 
+ * A mix-o-matic mixture model implementation that does not check the 
+ * model parameters for validity and is not appropriate for general 
+ * purpose use. 
  *
  * It was written to be used by mathematical optimizer implementations 
  * that may ask for the probability density function to be evaluated 
@@ -18,7 +18,6 @@ import edu.uab.ssg.mixomatic.MixtureModel;
  *
  * @author Jelai Wang
  */
-
 public final class LooseModel implements MixtureModel {
 	private double lambda0;
 	private double r, s;
@@ -28,7 +27,6 @@ public final class LooseModel implements MixtureModel {
 	 * lambda0 and a beta component specified by shape parameters 
 	 * r and s, but does not check the values for validity.
 	 */
-
 	public LooseModel(double lambda0, double r, double s) {
 		this.lambda0 = lambda0;
 		this.r = r;
@@ -38,5 +36,9 @@ public final class LooseModel implements MixtureModel {
 	public double getLambda0() { return lambda0; }
 	public double getR() { return r; }
 	public double getS() { return s; }
+
+	/**
+	 * Returns a string representation of this mixture model.
+	 */
 	public String toString() { return lambda0 + " " + r + " " + s; }
 }
