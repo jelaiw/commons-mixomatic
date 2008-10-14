@@ -12,9 +12,51 @@ import java.util.*;
  * @author Jelai Wang
  */
 public abstract class AbstractConfiguration {
-	protected double[] lowerBounds, upperBounds;
-	protected double[] lambda0, r, s;
+	/**
+	 * An array specifying the lower bounds for lambda0, r, and s.
+	 * The the bounds are expected in the following order: { lambda0, r, s}.
+	 */
+	protected double[] lowerBounds;
 
+	/**
+	 * An array specifying the upper bounds for lambda0, r, and s.
+	 * The the bounds are expected in the following order: { lambda0, r, s}.
+	 */
+	protected double[] upperBounds;
+
+	/**
+	 * An array specifying grid search points for lambda0.
+	 * The points must be between 0 and 1, because lambda0 is a proportion,
+	 * and within the set of feasible points specified by the lower and
+	 * upper bounds.
+	 */
+	protected double[] lambda0;
+
+	/**
+	 * An array specifying grid search points for r.
+	 * The points must be positive, because r is a beta distribution 
+	 * parameter, and within the set of feasible points specified by 
+	 * the lower and upper bounds.
+	 */
+	protected double[] r;
+
+	/**
+	 * An array specifying grid search points for s.
+	 * The points must be positive, because s is a beta distribution 
+	 * parameter, and within the set of feasible points specified by 
+	 * the lower and upper bounds.
+	 */
+	protected double[] s;
+
+	/**
+	 * Constructs the configuration.
+	 */
+	protected AbstractConfiguration() {
+	}
+
+	/**
+	 * Returns the lower bounds.
+	 */
 	public OptimizerConfiguration.LowerBounds getLowerBounds() {
 		return new OptimizerConfiguration.LowerBounds() {
 			public double getLambda0() { return lowerBounds[0]; }
@@ -23,6 +65,9 @@ public abstract class AbstractConfiguration {
 		};
 	}
 
+	/**
+	 * Returns the upper bounds.
+	 */
 	public OptimizerConfiguration.UpperBounds getUpperBounds() {
 		return new OptimizerConfiguration.UpperBounds() {
 			public double getLambda0() { return upperBounds[0]; }
@@ -31,7 +76,9 @@ public abstract class AbstractConfiguration {
 		};
 	}
 
-	// Find the best starting point by grid search.
+	/**
+	 * Finds an optimizer starting point by grid search.
+	 */
 	public OptimizerConfiguration.StartingPoint findStartingPoint(double[] sample) {
 		if (sample == null)
 			throw new NullPointerException("sample");
@@ -64,6 +111,9 @@ public abstract class AbstractConfiguration {
 		};
 	}
 
+	/**
+	 * Returns a string representation of the configuration.
+	 */
 	public String toString() {
 		String EOL = System.getProperty("line.separator");
 		StringBuffer buffer = new StringBuffer();
