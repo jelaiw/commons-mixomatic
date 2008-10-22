@@ -4,11 +4,12 @@
 		<fail message="Need to define input.filename property." unless="input.filename"/>
 		<fail message="Need to define N1 property." unless="N1"/>
 		<fail message="Need to define N2 property." unless="N2"/>
-		<java classname="edu.uab.ssg.mixomatic.helper.MiniAnalysis">
+		<java classname="edu.uab.ssg.mixomatic.helper.MiniAnalysis" fork="true">
 			<classpath>
 				<pathelement location="${classes.dir}"/>
 				<path refid="compile.classpath"/>
 			</classpath>
+			<jvmarg value="-Dlog4j.configuration=file:log4j.xml"/>
 			<arg value="${input.filename}"/>
 			<arg value="${N1}"/>
 			<arg value="${N2}"/>
