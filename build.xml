@@ -18,7 +18,6 @@
 			<include name="jsci-core-0.93.jar"/>
 			<include name="colt-1.2.0.jar"/>
 			<include name="commons-math-1.2.jar"/>
-			<include name="log4j-1.2.15.jar"/>
 		</fileset>
 	</path>
 

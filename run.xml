@@ -9,7 +9,6 @@
 				<pathelement location="${classes.dir}"/>
 				<path refid="compile.classpath"/>
 			</classpath>
-			<jvmarg value="-Dlog4j.configuration=file:log4j.xml"/>
 			<arg value="${input.filename}"/>
 			<arg value="${N1}"/>
 			<arg value="${N2}"/>
