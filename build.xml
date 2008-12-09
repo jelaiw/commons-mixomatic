@@ -8,6 +8,7 @@
 
 	<import file="test.xml"/>
 	<import file="run.xml"/>
+	<import file="dist.xml"/>
 
 	<path id ="compile.classpath">
 		<fileset dir="${vendor.lib.dir}">
