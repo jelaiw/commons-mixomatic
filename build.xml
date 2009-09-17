@@ -5,8 +5,8 @@
 	<property name="lib.dir" location="lib"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
 	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
-	<property name="javadoc.dir" location="${build.dir}/dist"/>
-	<property name="jar.name" location="commons-mixomatic"/>
+	<property name="dist.dir" location="${build.dir}/dist"/>
+	<property name="jar.name" value="commons-mixomatic"/>
 
 	<import file="test.xml"/>
 
