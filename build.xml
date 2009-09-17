@@ -2,16 +2,16 @@
 <project basedir=".">
 	<property name="build.dir" location="build"/>
 	<property name="src.dir" location="src"/>
-	<property name="vendor.lib.dir" location="vendor/lib"/>
+	<property name="lib.dir" location="lib"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
 	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
+	<property name="javadoc.dir" location="${build.dir}/dist"/>
+	<property name="jar.name" location="commons-mixomatic"/>
 
 	<import file="test.xml"/>
-	<import file="run.xml"/>
-	<import file="dist.xml"/>
 
 	<path id ="compile.classpath">
-		<fileset dir="${vendor.lib.dir}">
+		<fileset dir="${lib.dir}">
 			<include name="flanagan.jar"/>
 			<include name="jfreechart-1.0.10.jar"/>
 			<include name="jcommon-1.0.13.jar"/>
@@ -43,5 +43,25 @@
 
 	<target name="javadoc" depends="-prepare" description="Generates the Javadoc API documentation.">
 		<javadoc packagenames="edu.uab.ssg.mixomatic.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath" link="http://java.sun.com/javase/6/docs/api/"/>
+	</target>
+
+	<target name="jar" description="Creates a jar from the compiled classes.">
+		<mkdir dir="${dist.dir}"/>
+		<jar basedir="${classes.dir}" destfile="${dist.dir}/${jar.name}.jar"/>
+	</target>
+
+	<target name="run-mini-analysis">
+		<fail message="Need to define input.filename property." unless="input.filename"/>
+		<fail message="Need to define N1 property." unless="N1"/>
+		<fail message="Need to define N2 property." unless="N2"/>
+		<java classname="edu.uab.ssg.mixomatic.helper.MiniAnalysis" fork="true">
+			<classpath>
+				<pathelement location="${classes.dir}"/>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<arg value="${input.filename}"/>
+			<arg value="${N1}"/>
+			<arg value="${N2}"/>
+		</java>
 	</target>
 </project>
