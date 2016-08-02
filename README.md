@@ -14,8 +14,12 @@ See paper at http://dx.doi.org/10.1191/0962280204sm369ra.
 Please see [javadocs](https://jelaiw.github.io/commons-mixomatic/javadoc/) for further detail.
 
 ### Example mix-o-matic histogram
+This is the plot most people want to see after fitting the mixture model.
+
 ![mix-o-matic histogram example](https://jelaiw.github.io/commons-mixomatic/javadoc/edu/uab/ssg/mixomatic/plot/doc-files/Histogram-1.png)
 
 ### Example "combined" power plot
+This is a useful summary plot, combining EDR, TP, and TN at a fixed threshold for significance.
+
 ![combined power plot example](https://jelaiw.github.io/commons-mixomatic/javadoc/edu/uab/ssg/mixomatic/power/plot/doc-files/CombinedPlot-1.png)
 
