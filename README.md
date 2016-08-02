@@ -11,6 +11,8 @@ See paper at http://dx.doi.org/10.1191/0962280204sm369ra.
   * See `edu.uab.ssg.mixomatic.power` for data model
   * See `edu.uab.ssg.mixomatic.power.plot` for EDR, TP, and TN plots.
 
+Please see [javadocs](https://jelaiw.github.io/commons-mixomatic/javadoc/) for further detail.
+
 ### Example mix-o-matic histogram
 ![mix-o-matic histogram example](https://jelaiw.github.io/commons-mixomatic/javadoc/edu/uab/ssg/mixomatic/plot/doc-files/Histogram-1.png)
 
